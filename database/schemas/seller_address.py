@@ -1,10 +1,8 @@
 import datetime
 
-from loader import tz
-
 from database.database_setup import BaseModel
 
-from sqlalchemy import Column, ForeignKey, BigInteger, VARCHAR, TEXT, DateTime, sql, func
+from sqlalchemy import Column, BigInteger, VARCHAR, TEXT, DateTime, sql, func
 
 
 class SellerAddress(BaseModel):
@@ -14,7 +12,7 @@ class SellerAddress(BaseModel):
     id = Column(BigInteger, primary_key=True, autoincrement=True,
                 server_default=sql.text('nextval(\'seller_coordinate_id_seq\')'))
     # Telegram user id.
-    seller_id = Column(BigInteger, ForeignKey('seller.seller_id'), nullable=False)
+    seller_id = Column(BigInteger,  nullable=False)
     # City name.
     city = Column(VARCHAR(32), nullable=False)
     # Brand name.
@@ -32,7 +30,7 @@ class SellerAddress(BaseModel):
         DateTime(True),
         default=datetime.datetime.utcnow,
         onupdate=datetime.datetime.utcnow,
-        server_default=func.now(tz)
+        server_default=func.now()
     )
 
     query: sql.select

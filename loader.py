@@ -1,4 +1,3 @@
-import pytz
 import logging
 
 from data.config import (
@@ -18,7 +17,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 
-__all__ = ['bot', 'dp', 'db', 'tz', 'logger']
+__all__ = ['bot', 'dp', 'db', 'logger']
 
 storage = RedisStorage2(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
@@ -29,7 +28,5 @@ db = Gino()
 
 # schedule_cache = TTLCache(maxsize=SCHEDULE_MAXSIZE, ttl=SCHEDULE_TTL)
 # voice_cache = TTLCache(maxsize=VOICE_MAXSIZE, ttl=VOICE_TTL)
-
-tz = pytz.timezone('Europe/Moscow')
 
 logger = logging.getLogger(__name__)
