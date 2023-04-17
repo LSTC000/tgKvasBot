@@ -23,6 +23,8 @@ class SellerAddress(BaseModel):
     latitude = Column(VARCHAR(32), nullable=True)
     # Longitude coordinate.
     longitude = Column(VARCHAR(32), nullable=True)
+    # Seller address.
+    address = Column(TEXT, nullable=True)
     # Url for seller address.
     address_url = Column(TEXT, nullable=True)
     # Update date.

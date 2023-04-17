@@ -2,7 +2,7 @@ from loader import logger
 
 from asyncpg import UniqueViolationError
 
-from database import SellerCoordinates
+from database import SellerAddress
 
 
 async def add_seller_address(
@@ -11,6 +11,7 @@ async def add_seller_address(
     brand: str,
     latitude: str = None,
     longitude: str = None,
+    address: str = None,
     address_url: str = None
 ) -> None:
     '''
@@ -19,19 +20,21 @@ async def add_seller_address(
     :param brand: Название бренда кваса.
     :param latitude: Широта. По умолчанию: None.
     :param longitude: Долгота. По умолчанию: None.
+    :param address: Адрес продавца. По умолчанию: None.
     :param address_url: Url адрес продавца. По умолчанию: None.
     :return: None.
     '''
 
     try:
-        seller_coordinates = SellerCoordinates(
+        seller_address = SellerAddress(
             seller_id=seller_id,
             city=city,
             brand=brand,
             latitude=latitude,
             longitude=longitude,
+            address=address,
             address_url=address_url
         )
-        await seller_coordinates.create()
+        await seller_address.create()
     except UniqueViolationError:
         logger.info('Error to add seller coordinates! Seller coordinates already exists in the database.')
