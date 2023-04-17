@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Tuple
 from json import JSONDecodeError
 
 from data.config import HEADERS
@@ -7,12 +7,12 @@ from data.config import MAPS_GEOCODER_TOKEN, MAPS_GEOCODER_URL, MAPS_SEARCH_URL
 import httpx
 
 
-async def create_seller_address_url(user_id: str, longitude: str, latitude: str) -> Union[None, str]:
+async def create_seller_address_url(user_id: str, longitude: str, latitude: str) -> Union[None, Tuple[str, str]]:
     """
     :param user_id: Телеграм user id пользователя.
     :param longitude: Долгота.
     :param latitude: Широта.
-    :return: Если не возникла ошибка, то возвращаем гиперссылку с адресом ближайшей бочки с квасом.
+    :return: Если не возникла ошибка, то возвращаем url с адресом и сам адрес ближайшей бочки с квасом.
         Иначе возваращаем None.
     """
 
@@ -36,5 +36,5 @@ async def create_seller_address_url(user_id: str, longitude: str, latitude: str)
     except (JSONDecodeError, KeyError, IndexError, AttributeError, TypeError, FileNotFoundError, IOError):
         return None
 
-    # Формируем гиперссылку и отправляем её в качестве ответа функции.
-    return f'<a href="{MAPS_SEARCH_URL.format(longitude, latitude)}" title="адрес"><b>{address}</b></a>.'
+    # Отправляем url с адресом и сам адрес в качестве ответа функции.
+    return MAPS_SEARCH_URL.format(longitude, latitude), address

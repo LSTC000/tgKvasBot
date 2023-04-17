@@ -4,10 +4,10 @@ from loader import tz
 
 from database.database_setup import BaseModel
 
-from sqlalchemy import Column, ForeignKey, BigInteger, VARCHAR, DateTime, sql, func
+from sqlalchemy import Column, ForeignKey, BigInteger, VARCHAR, TEXT, DateTime, sql, func
 
 
-class SellerCoordinates(BaseModel):
+class SellerAddress(BaseModel):
     __tablename__ = 'seller_coordinates'
 
     # Auto increment id.
@@ -17,10 +17,14 @@ class SellerCoordinates(BaseModel):
     seller_id = Column(BigInteger, ForeignKey('seller.seller_id'), nullable=False)
     # City name.
     city = Column(VARCHAR(32), nullable=False)
+    # Brand name.
+    brand = Column(VARCHAR(32), nullable=False)
     # Latitude coordinate.
-    latitude = Column(VARCHAR(32), nullable=False)
+    latitude = Column(VARCHAR(32), nullable=True)
     # Longitude coordinate.
-    longitude = Column(VARCHAR(32), nullable=False)
+    longitude = Column(VARCHAR(32), nullable=True)
+    # Url for seller address.
+    address_url = Column(TEXT, nullable=True)
     # Update date.
     updated_date = Column(
         DateTime(True),
