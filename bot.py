@@ -11,7 +11,8 @@ from data.config import SKIP_UPDATES
 
 from handlers import (
     register_users_commands,
-    set_default_commands
+    set_default_commands,
+    register_buyer_register_menu
 )
 
 from loader import dp, bot, logger
@@ -24,6 +25,7 @@ from aiogram.utils import executor
 
 
 def register_all_handlers(dispatcher: Dispatcher):
+    register_buyer_register_menu(dispatcher)
     register_users_commands(dispatcher)
 
 

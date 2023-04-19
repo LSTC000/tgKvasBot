@@ -12,6 +12,6 @@ HELP_MESSAGE = '''
 Тут должна быть справка, но пока её нет :)
 '''
 
-START_SHORT_MESSAGE = 'приветствие'
+START_SHORT_MESSAGE = 'перезапуск бота'
 MENU_SHORT_MESSAGE = 'главное меню'
 HELP_SHORT_MESSAGE = 'справка'
