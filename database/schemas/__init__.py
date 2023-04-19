@@ -4,7 +4,8 @@ __all__ = [
     'SellerAddress',
     'Buyer',
     'Cities',
-    'Brands'
+    'Brands',
+    'Alerts'
 ]
 
 
@@ -14,3 +15,4 @@ from .seller_address import SellerAddress
 from .buyer import Buyer
 from .cities import Cities
 from .brands import Brands
+from .alerts import Alerts

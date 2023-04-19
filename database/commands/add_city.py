@@ -5,9 +5,7 @@ from asyncpg import UniqueViolationError
 from database import Cities
 
 
-async def add_city(
-    city: str
-) -> None:
+async def add_city(city: str) -> None:
     '''
     :param city: Название города.
     :return: None.

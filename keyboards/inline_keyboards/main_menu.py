@@ -1,6 +1,6 @@
 from data.config import ROW_WIDTH
 
-from data.callbacks import BUYER_MENU_DATA, SELLER_MENU_DATA, SETTINGS_MENU_DATA
+from data.callbacks import BUYER_MENU_DATA, SELLER_MENU_DATA, BUYER_SETTINGS_MENU_DATA
 
 from data.messages import BUYER_MENU_IKB_MESSAGE, SELLER_MENU_IKB_MESSAGE, SETTINGS_MENU_IKB_MESSAGE
 
@@ -17,6 +17,6 @@ def main_menu_ikb() -> InlineKeyboardMarkup:
 
     ikb.row(InlineKeyboardButton(text=BUYER_MENU_IKB_MESSAGE, callback_data=BUYER_MENU_DATA))
     ikb.row(InlineKeyboardButton(text=SELLER_MENU_IKB_MESSAGE, callback_data=SELLER_MENU_DATA))
-    ikb.row(InlineKeyboardButton(text=SETTINGS_MENU_IKB_MESSAGE, callback_data=SETTINGS_MENU_DATA))
+    ikb.row(InlineKeyboardButton(text=SETTINGS_MENU_IKB_MESSAGE, callback_data=BUYER_SETTINGS_MENU_DATA))
 
     return ikb

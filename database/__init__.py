@@ -7,15 +7,20 @@ __all__ = [
     'Buyer',
     'Cities',
     'Brands',
+    'Alerts',
     'add_seller',
     'add_seller_info',
     'add_seller_address',
     'add_buyer',
     'add_city',
     'add_brand',
+    'add_alert',
     'get_buyer',
     'get_cities',
-    'get_brands'
+    'get_brands',
+    'get_alerts',
+    'update_buyer',
+    'delete_alert'
 ]
 
 
@@ -26,7 +31,8 @@ from .schemas import (
     SellerAddress,
     Buyer,
     Cities,
-    Brands
+    Brands,
+    Alerts
 )
 from .commands import (
     add_seller,
@@ -35,7 +41,11 @@ from .commands import (
     add_buyer,
     add_city,
     add_brand,
+    add_alert,
     get_buyer,
     get_cities,
-    get_brands
+    get_brands,
+    get_alerts,
+    update_buyer,
+    delete_alert
 )

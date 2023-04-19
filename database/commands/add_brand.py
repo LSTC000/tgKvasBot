@@ -5,9 +5,7 @@ from asyncpg import UniqueViolationError
 from database import Brands
 
 
-async def add_brand(
-    brand: str
-) -> None:
+async def add_brand(brand: str) -> None:
     '''
     :param brand: Название бренда.
     :return: None.

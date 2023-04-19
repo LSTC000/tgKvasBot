@@ -1,31 +1,31 @@
 import logging
 
-from data.config import SKIP_UPDATES
-
-# from data.messages import (
-#     ADMIN_STARTUP_MESSAGE,
-#     ADMIN_SHUTDOWN_MESSAGE,
-#     USERS_STARTUP_MESSAGE,
-#     USERS_SHUTDOWN_MESSAGE
-# )
-
-from handlers import (
-    register_users_commands,
-    set_default_commands,
-    register_buyer_register_menu
-)
-
 from loader import dp, bot, logger
 
-from database import startup_setup, shutdown_setup
+from data.config import SKIP_UPDATES
 
+from data.messages import ALERT_STARTUP_MESSAGE, ALERT_SHUTDOWN_MESSAGE
+
+from handlers import (
+    register_users_cancels_menu,
+    register_users_commands,
+    set_default_commands,
+    register_buyer_register_menu,
+    register_main_menu,
+    register_buyer_settings_menu
+)
+
+from database import startup_setup, shutdown_setup, get_alerts
 
 from aiogram import Bot, Dispatcher
 from aiogram.utils import executor
 
 
 def register_all_handlers(dispatcher: Dispatcher):
+    register_main_menu(dispatcher)
+    register_buyer_settings_menu(dispatcher)
     register_buyer_register_menu(dispatcher)
+    register_users_cancels_menu(dispatcher)
     register_users_commands(dispatcher)
 
 
@@ -51,17 +51,17 @@ async def on_startup(dispatcher: Dispatcher):
     logger.info('Register all handlers')
     register_all_handlers(dispatcher)
 
-    # logger.info('Bot starting users alert')
-    # users = await select_users()
-    # for user in users:
-    #     await bot.send_message(chat_id=user[0], text=USERS_STARTUP_MESSAGE)
+    logger.info('Bot starting users alert')
+    users = await get_alerts()
+    for user in users:
+        await bot.send_message(chat_id=user[0], text=ALERT_STARTUP_MESSAGE, disable_notification=True)
 
 
 async def on_shutdown(dispatcher: Dispatcher):
-    # logger.info('Bot stopped users alert')
-    # users = await select_users()
-    # for user in users:
-    #     await bot.send_message(chat_id=user[0], text=USERS_SHUTDOWN_MESSAGE)
+    logger.info('Bot stopped users alert')
+    users = await get_alerts()
+    for user in users:
+        await bot.send_message(chat_id=user[0], text=ALERT_SHUTDOWN_MESSAGE, disable_notification=True)
 
     logger.info('Closing PostgreSQL connection')
     await shutdown_setup()
