@@ -16,6 +16,7 @@ from inline_pickers import InlineCityPicker
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 
 @dp.callback_query_handler(
@@ -27,7 +28,10 @@ async def buyer_choice_city(callback: types.CallbackQuery, state: FSMContext) ->
 
     async with state.proxy() as data:
         if LAST_IKB_REDIS_KEY in data:
-            await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
 
         # Достаём список доступных городов и запоминаем в redis страницу.
         cities = await get_cities_from_cache()
@@ -62,11 +66,15 @@ async def enter_buyer_choice_city(callback: types.CallbackQuery, state: FSMConte
     if selected:
         user_id = callback.from_user.id
 
-        # Добавляем в redis выбранный город и отправляем об этом сообщение. Удаляем страницу из redis.
+        if city is not None:
+            # Добавляем в redis выбранный город и отправляем об этом сообщение.
+            async with state.proxy() as data:
+                data[CITY_REGISTER_REDIS_KEY] = city
+                await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
+
+        # Удаляем страницу из redis.
         async with state.proxy() as data:
-            data[CITY_REGISTER_REDIS_KEY] = city
             data.pop(IKB_PAGE_REDIS_KEY)
-            await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
 
         # Вызываем меню регистрации.
         await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)

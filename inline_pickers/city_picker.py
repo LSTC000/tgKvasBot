@@ -1,6 +1,10 @@
 from typing import List
 
+from data.callbacks import CANCEL_TO_LAST_MENU_DATA
+
 from data.config import CITY_PICKER_ROW_WIDTH, MAX_CITIES_ON_PAGE
+
+from data.messages import CANCEL_TO_LAST_MENU_IKB_MESSAGE
 
 from data.redis import IKB_PAGE_REDIS_KEY
 
@@ -41,6 +45,8 @@ class InlineCityPicker:
             callback_data=f"NEXT-CITIES" if count_cities > stop else ignore_callback
         ))
 
+        inline_kb.row(InlineKeyboardButton(CANCEL_TO_LAST_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_LAST_MENU_DATA))
+
         return inline_kb
 
     async def process_selection(
@@ -56,13 +62,14 @@ class InlineCityPicker:
         :param callback_data: Действие, выбранное пользователем.
         :param state: FSMContext.
         :return: Кортеж, в котором первый элемент имеет значение True, если пользователь выбрал город
-            и False иначе. Второй элемент содержит строку с выбранным городом.
+            или возврат в предыдущее меню и False иначе. Второй элемент содержит строку с выбранным городом или None,
+             если пользователь выбрал возврат в предыдущее меню.
         """
 
         async with state.proxy() as data:
             page = data[IKB_PAGE_REDIS_KEY]
 
-            return_data = (False, None)
+            return_data = False, None
 
             if callback_data == "IGNORE":
                 await callback.answer(cache_time=60)
@@ -74,6 +81,8 @@ class InlineCityPicker:
                 page += 1
                 data[IKB_PAGE_REDIS_KEY] = page
                 await callback.message.edit_reply_markup(await self.start_citypicker(cities=cities, page=page))
+            elif callback_data == CANCEL_TO_LAST_MENU_DATA:
+                return True, None
             else:
                 return_data = True, callback_data
 

@@ -1,5 +1,8 @@
 # CANCELS.
 CANCEL_TO_MAIN_MENU_DATA = 'cancel_to_main_menu'
+CANCEL_TO_LAST_MENU_DATA = 'cancel_to_back'
+# START COMMAND.
+START_COMMAND_DATA = 'start_command'
 # MAIN MENU.
 FIND_NEAREST_SELLER_DATA = 'find_nearest_seller'
 SELLER_MENU_DATA = 'seller_menu'

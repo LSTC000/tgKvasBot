@@ -24,6 +24,7 @@ from inline_pickers import InlineBrandPicker
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 
 @dp.callback_query_handler(lambda c: c.data == BUYER_CHANGE_BRAND_DATA, state=MainMenuStatesGroup.settings_menu)
@@ -32,7 +33,10 @@ async def buyer_change_brand(callback: types.CallbackQuery, state: FSMContext) -
 
     async with state.proxy() as data:
         if LAST_IKB_REDIS_KEY in data:
-            await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
 
         # Достаём список доступных брендов и запоминаем в redis страницу.
         brands = await get_brands_from_cache()
@@ -67,13 +71,14 @@ async def enter_buyer_change_brand(callback: types.CallbackQuery, state: FSMCont
     if selected:
         user_id = callback.from_user.id
 
+        if brand is not None:
+            # Обновляем бренд пользователя в БД и отправляем ему об этом сообщение.
+            await update_buyer_brand(buyer_id=user_id, brand=brand)
+            await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHANGE_BRAND_MESSAGE)
+
         # Удаляем страницу из redis.
         async with state.proxy() as data:
             data.pop(IKB_PAGE_REDIS_KEY)
-
-        # Обновляем бренд пользователя в БД и отправляем ему об этом сообщение.
-        await update_buyer_brand(buyer_id=user_id, brand=brand)
-        await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHANGE_BRAND_MESSAGE)
 
         # Проверяем включены ли у пользователя уведомления.
         check_alert = await is_alert(user_id=user_id)
