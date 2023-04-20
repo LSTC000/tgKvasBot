@@ -8,7 +8,7 @@ from functions import reload_ikb
 
 from keyboards import main_menu_ikb
 
-from states import MainMenuStatesGroup, BuyerSettingsStatesGroup
+from states import MainMenuStatesGroup
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -16,7 +16,7 @@ from aiogram.dispatcher import FSMContext
 
 @dp.callback_query_handler(
     lambda c: c.data == CANCEL_TO_MAIN_MENU_DATA,
-    state=BuyerSettingsStatesGroup.settings_menu
+    state=MainMenuStatesGroup.settings_menu
 )
 async def cancel_to_main_menu(callback: types.CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id

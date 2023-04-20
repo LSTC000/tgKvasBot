@@ -2,6 +2,8 @@ from loader import dp, buyer_cache
 
 from data.messages import MENU_MESSAGE, BUYER_REGISTER_MESSAGE
 
+from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
+
 from keyboards import main_menu_ikb, buyer_register_menu_ikb
 
 from functions import is_buyer, reload_ikb
@@ -37,6 +39,11 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
 
         await MainMenuStatesGroup.main_menu.set()
     else:
+        # Определяем в redis город и бренд для регистрации.
+        async with state.proxy() as data:
+            data[CITY_REGISTER_REDIS_KEY] = None
+            data[BRAND_REGISTER_REDIS_KEY] = None
+
         # Вызываем меню регистрации покупателя.
         await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
 

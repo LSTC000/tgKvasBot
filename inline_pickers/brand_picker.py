@@ -2,7 +2,7 @@ from typing import List
 
 from data.config import BRAND_PICKER_ROW_WIDTH, MAX_BRANDS_ON_PAGE
 
-from data.redis import PAGE_REDIS_KEY
+from data.redis import IKB_PAGE_REDIS_KEY
 
 from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
@@ -60,7 +60,7 @@ class InlineBrandPicker:
         """
 
         async with state.proxy() as data:
-            page = data[PAGE_REDIS_KEY]
+            page = data[IKB_PAGE_REDIS_KEY]
 
             return_data = (False, None)
 
@@ -68,11 +68,11 @@ class InlineBrandPicker:
                 await callback.answer(cache_time=60)
             elif callback_data == "PREV-BRANDS":
                 page -= 1
-                data[PAGE_REDIS_KEY] = page
+                data[IKB_PAGE_REDIS_KEY] = page
                 await callback.message.edit_reply_markup(await self.start_brandpicker(brands=brands, page=page))
             elif callback_data == "NEXT-BRANDS":
                 page += 1
-                data[PAGE_REDIS_KEY] = page
+                data[IKB_PAGE_REDIS_KEY] = page
                 await callback.message.edit_reply_markup(await self.start_brandpicker(brands=brands, page=page))
             else:
                 return_data = True, callback_data

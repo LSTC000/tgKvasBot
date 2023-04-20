@@ -1,18 +1,16 @@
 from loader import dp, bot
 
-from data.redis import LAST_IKB_REDIS_KEY, PAGE_REDIS_KEY
+from data.redis import LAST_IKB_REDIS_KEY, IKB_PAGE_REDIS_KEY, CITY_REGISTER_REDIS_KEY
 
 from data.callbacks import BUYER_CHOICE_CITY_DATA
 
-from data.messages import MENU_MESSAGE, BUYER_CHOICE_CITY_MESSAGE, BUYER_SAVE_CHOICE_CITY_MESSAGE
-
-from database import add_buyer, add_alert
+from data.messages import BUYER_REGISTER_MESSAGE, BUYER_CHOICE_CITY_MESSAGE, BUYER_SAVE_CHOICE_CITY_MESSAGE
 
 from functions import get_cities_from_cache, reload_ikb
 
-from keyboards import main_menu_ikb
+from keyboards import buyer_register_menu_ikb
 
-from states import MainMenuStatesGroup, BuyerRegisterMenuStatesGroup
+from states import BuyerRegisterMenuStatesGroup
 
 from inline_pickers import InlineCityPicker
 
@@ -31,9 +29,9 @@ async def buyer_choice_city(callback: types.CallbackQuery, state: FSMContext) ->
         if LAST_IKB_REDIS_KEY in data:
             await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
 
-        # Достаём список доступных городов и переходим на начальную страницу.
+        # Достаём список доступных городов и запоминаем в redis страницу.
         cities = await get_cities_from_cache()
-        data[PAGE_REDIS_KEY] = 0
+        data[IKB_PAGE_REDIS_KEY] = 0
 
         # Вызываем меню выбора города.
         msg = await bot.send_message(
@@ -64,14 +62,13 @@ async def enter_buyer_choice_city(callback: types.CallbackQuery, state: FSMConte
     if selected:
         user_id = callback.from_user.id
 
-        # Добавляем пользователя в БД и отправляем ему об этом сообщение.
-        await add_buyer(buyer_id=user_id, city=city, brand=None)
-        await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
+        # Добавляем в redis выбранный город и отправляем об этом сообщение. Удаляем страницу из redis.
+        async with state.proxy() as data:
+            data[CITY_REGISTER_REDIS_KEY] = city
+            data.pop(IKB_PAGE_REDIS_KEY)
+            await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
 
-        #Добавляем пользователя в список тех, кто будет получать уведомления.
-        await add_alert(user_id=user_id)
+        # Вызываем меню регистрации.
+        await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
 
-        # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
-
-        await MainMenuStatesGroup.main_menu.set()
+        await BuyerRegisterMenuStatesGroup.register_menu.set()

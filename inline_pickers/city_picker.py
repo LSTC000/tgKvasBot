@@ -2,7 +2,7 @@ from typing import List
 
 from data.config import CITY_PICKER_ROW_WIDTH, MAX_CITIES_ON_PAGE
 
-from data.redis import PAGE_REDIS_KEY
+from data.redis import IKB_PAGE_REDIS_KEY
 
 from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
@@ -60,7 +60,7 @@ class InlineCityPicker:
         """
 
         async with state.proxy() as data:
-            page = data[PAGE_REDIS_KEY]
+            page = data[IKB_PAGE_REDIS_KEY]
 
             return_data = (False, None)
 
@@ -68,11 +68,11 @@ class InlineCityPicker:
                 await callback.answer(cache_time=60)
             elif callback_data == "PREV-CITIES":
                 page -= 1
-                data[PAGE_REDIS_KEY] = page
+                data[IKB_PAGE_REDIS_KEY] = page
                 await callback.message.edit_reply_markup(await self.start_citypicker(cities=cities, page=page))
             elif callback_data == "NEXT-CITIES":
                 page += 1
-                data[PAGE_REDIS_KEY] = page
+                data[IKB_PAGE_REDIS_KEY] = page
                 await callback.message.edit_reply_markup(await self.start_citypicker(cities=cities, page=page))
             else:
                 return_data = True, callback_data

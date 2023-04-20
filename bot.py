@@ -12,8 +12,7 @@ from handlers import (
     set_default_commands,
     register_buyer_register_menu,
     register_main_menu,
-    register_buyer_settings_menu,
-    register_buyer_menu
+    register_buyer_settings_menu
 )
 
 from database import startup_setup, shutdown_setup, get_alerts
@@ -25,7 +24,6 @@ from aiogram.utils.exceptions import BotBlocked
 
 def register_all_handlers(dispatcher: Dispatcher):
     register_main_menu(dispatcher)
-    register_buyer_menu(dispatcher)
     register_buyer_settings_menu(dispatcher)
     register_buyer_register_menu(dispatcher)
     register_users_cancels_menu(dispatcher)
