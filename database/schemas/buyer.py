@@ -15,6 +15,8 @@ class Buyer(BaseModel):
     buyer_id = Column(BigInteger, nullable=False)
     # City name.
     city = Column(VARCHAR(32), nullable=False)
+    # Brand name.
+    brand = Column(VARCHAR(32), nullable=True)
     # Created date.
     created_date = Column(DateTime(True), server_default=func.now())
     # Payment date.

@@ -10,7 +10,7 @@ from database import add_alert, delete_alert
 
 from keyboards import buyer_settings_menu_ikb
 
-from states import BuyerSettingsStatesGroup
+from states import MainMenuStatesGroup
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -18,7 +18,7 @@ from aiogram.dispatcher import FSMContext
 
 @dp.callback_query_handler(
     lambda c: c.data in [ON_ALERT_DATA, OFF_ALERT_DATA],
-    state=BuyerSettingsStatesGroup.settings_menu
+    state=MainMenuStatesGroup.settings_menu
 )
 async def buyer_change_alert(callback: types.CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id
@@ -42,4 +42,4 @@ async def buyer_change_alert(callback: types.CallbackQuery, state: FSMContext) -
             reply_markup=buyer_settings_menu_ikb(alert_ikb_message=alert_ikb_message, alert_data=alert_data)
         )
 
-    await BuyerSettingsStatesGroup.settings_menu.set()
+    await MainMenuStatesGroup.settings_menu.set()

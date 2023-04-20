@@ -12,13 +12,13 @@ from data.messages import (
     OFF_ALERT_IKB_MESSAGE
 )
 
-from database import update_buyer
+from database import update_buyer_city
 
-from functions import get_cities_from_cache, is_alert
+from functions import get_cities_from_cache, is_alert, reload_ikb
 
 from keyboards import buyer_settings_menu_ikb
 
-from states import BuyerSettingsStatesGroup
+from states import MainMenuStatesGroup, BuyerSettingsStatesGroup
 
 from inline_pickers import InlineCityPicker
 
@@ -28,7 +28,7 @@ from aiogram.dispatcher import FSMContext
 
 @dp.callback_query_handler(
     lambda c: c.data == BUYER_CHANGE_CITY_DATA,
-    state=BuyerSettingsStatesGroup.settings_menu
+    state=MainMenuStatesGroup.settings_menu
 )
 async def buyer_change_city(callback: types.CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id
@@ -37,7 +37,7 @@ async def buyer_change_city(callback: types.CallbackQuery, state: FSMContext) ->
         if LAST_IKB_REDIS_KEY in data:
             await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
 
-        # Достаём список доступных городов и добавляем начальную страницу.
+        # Достаём список доступных городов и переходим на начальную страницу.
         cities = await get_cities_from_cache()
         data[PAGE_REDIS_KEY] = 0
 
@@ -70,27 +70,23 @@ async def enter_buyer_change_city(callback: types.CallbackQuery, state: FSMConte
     if selected:
         user_id = callback.from_user.id
 
-        async with state.proxy() as data:
-            if LAST_IKB_REDIS_KEY in data:
-                await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+        # Обновляем город пользователя в БД и отправляем ему об этом сообщение.
+        await update_buyer_city(buyer_id=user_id, city=city)
+        await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHANGE_CITY_MESSAGE)
 
-            # Обновляем город пользователя в БД и отправляем ему об этом сообщение.
-            await update_buyer(buyer_id=user_id, city=city)
-            await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHANGE_CITY_MESSAGE)
+        # Проверяем включены ли у пользователя уведомления.
+        check_alert = await is_alert(user_id=user_id)
 
-            # Проверяем включены ли у пользователя уведомления.
-            check_alert = await is_alert(user_id=user_id)
+        # Вызываем меню настроек покупателя.
+        await reload_ikb(
+            user_id=user_id,
+            text=BUYER_SETTINGS_MENU_MESSAGE,
+            new_ikb=buyer_settings_menu_ikb,
+            state=state,
+            ikb_params={
+                'alert_ikb_message': OFF_ALERT_IKB_MESSAGE if check_alert else ON_ALERT_IKB_MESSAGE,
+                'alert_data': OFF_ALERT_DATA if check_alert else ON_ALERT_DATA
+            }
+        )
 
-            # Вызываем настройки покупателя.
-            msg = await bot.send_message(
-                chat_id=user_id,
-                text=BUYER_SETTINGS_MENU_MESSAGE,
-                reply_markup=buyer_settings_menu_ikb(
-                    alert_ikb_message=OFF_ALERT_IKB_MESSAGE if check_alert else ON_ALERT_IKB_MESSAGE,
-                    alert_data=OFF_ALERT_DATA if check_alert else ON_ALERT_DATA
-                )
-            )
-
-            data[LAST_IKB_REDIS_KEY] = msg.message_id
-
-        await BuyerSettingsStatesGroup.settings_menu.set()
+        await MainMenuStatesGroup.settings_menu.set()

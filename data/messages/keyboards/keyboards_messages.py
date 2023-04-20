@@ -11,3 +11,6 @@ BUYER_CHOICE_CITY_IKB_MESSAGE = 'Выбрать город'
 BUYER_CHANGE_CITY_IKB_MESSAGE = 'Изменить город'
 ON_ALERT_IKB_MESSAGE = 'Включить уведомления'
 OFF_ALERT_IKB_MESSAGE = 'Выключить уведомления'
+# BUYER MENU.
+BUYER_CHOICE_BRAND_IKB_MESSAGE = 'Выбрать бренд'
+FIND_NEAREST_SELLER_IKB_MESSAGE = 'Найти ближайшую бочку с квасом'

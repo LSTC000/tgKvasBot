@@ -10,7 +10,8 @@ __all__ = [
     'get_cities',
     'get_brands',
     'get_alerts',
-    'update_buyer',
+    'update_buyer_city',
+    'update_buyer_brand',
     'delete_alert'
 ]
 
@@ -26,5 +27,6 @@ from .get_buyer import get_buyer
 from .get_cities import get_cities
 from .get_brands import get_brands
 from .get_alerts import get_alerts
-from .update_buyer import update_buyer
+from .update_buyer_city import update_buyer_city
+from .update_buyer_brand import update_buyer_brand
 from .delete_alert import delete_alert

@@ -1,10 +1,10 @@
 from loader import dp, bot
 
-from data.redis import LAST_IKB_REDIS_KEY
-
 from data.callbacks import SUPPORT_BUYER_REGISTER_DATA
 
 from data.messages import SUPPORT_BUYER_REGISTER_MESSAGE, BUYER_REGISTER_MESSAGE
+
+from functions import reload_ikb
 
 from keyboards import buyer_register_menu_ikb
 
@@ -21,20 +21,10 @@ from aiogram.dispatcher import FSMContext
 async def support_buyer_register(callback: types.CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id
 
-    async with state.proxy() as data:
-        if LAST_IKB_REDIS_KEY in data:
-            await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+    # Показываем пользователю справку регистрации покупателя.
+    await bot.send_message(chat_id=user_id, text=SUPPORT_BUYER_REGISTER_MESSAGE)
 
-        # Показываем пользователю справку регистрации покупателя.
-        await bot.send_message(chat_id=user_id, text=SUPPORT_BUYER_REGISTER_MESSAGE)
-
-        # Вызываем меню регистрации покупателя.
-        msg = await bot.send_message(
-            chat_id=user_id,
-            text=BUYER_REGISTER_MESSAGE,
-            reply_markup=buyer_register_menu_ikb()
-        )
-
-        data[LAST_IKB_REDIS_KEY] = msg.message_id
+    # Вызываем меню регистрации покупателя.
+    await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
 
     await BuyerRegisterMenuStatesGroup.register_menu.set()

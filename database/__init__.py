@@ -19,7 +19,8 @@ __all__ = [
     'get_cities',
     'get_brands',
     'get_alerts',
-    'update_buyer',
+    'update_buyer_city',
+    'update_buyer_brand',
     'delete_alert'
 ]
 
@@ -46,6 +47,7 @@ from .commands import (
     get_cities,
     get_brands,
     get_alerts,
-    update_buyer,
+    update_buyer_city,
+    update_buyer_brand,
     delete_alert
 )

@@ -8,7 +8,7 @@ from data.messages import MENU_MESSAGE, BUYER_CHOICE_CITY_MESSAGE, BUYER_SAVE_CH
 
 from database import add_buyer, add_alert
 
-from functions import get_cities_from_cache
+from functions import get_cities_from_cache, reload_ikb
 
 from keyboards import main_menu_ikb
 
@@ -31,7 +31,7 @@ async def buyer_choice_city(callback: types.CallbackQuery, state: FSMContext) ->
         if LAST_IKB_REDIS_KEY in data:
             await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
 
-        # Достаём список доступных городов и добавляем начальную страницу.
+        # Достаём список доступных городов и переходим на начальную страницу.
         cities = await get_cities_from_cache()
         data[PAGE_REDIS_KEY] = 0
 
@@ -64,24 +64,14 @@ async def enter_buyer_choice_city(callback: types.CallbackQuery, state: FSMConte
     if selected:
         user_id = callback.from_user.id
 
-        async with state.proxy() as data:
-            if LAST_IKB_REDIS_KEY in data:
-                await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
+        # Добавляем пользователя в БД и отправляем ему об этом сообщение.
+        await add_buyer(buyer_id=user_id, city=city, brand=None)
+        await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
 
-            # Добавляем пользователя в БД и отправляем ему об этом сообщение.
-            await add_buyer(buyer_id=user_id, city=city)
-            await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHOICE_CITY_MESSAGE)
+        #Добавляем пользователя в список тех, кто будет получать уведомления.
+        await add_alert(user_id=user_id)
 
-            #Добавляем пользователя в список тех, кто будет получать уведомления.
-            await add_alert(user_id=user_id)
-
-            # Вызываем главное меню.
-            msg = await bot.send_message(
-                chat_id=user_id,
-                text=MENU_MESSAGE,
-                reply_markup=main_menu_ikb()
-            )
-
-            data[LAST_IKB_REDIS_KEY] = msg.message_id
+        # Вызываем главное меню.
+        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()

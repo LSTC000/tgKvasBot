@@ -12,17 +12,20 @@ from handlers import (
     set_default_commands,
     register_buyer_register_menu,
     register_main_menu,
-    register_buyer_settings_menu
+    register_buyer_settings_menu,
+    register_buyer_menu
 )
 
 from database import startup_setup, shutdown_setup, get_alerts
 
 from aiogram import Bot, Dispatcher
 from aiogram.utils import executor
+from aiogram.utils.exceptions import BotBlocked
 
 
 def register_all_handlers(dispatcher: Dispatcher):
     register_main_menu(dispatcher)
+    register_buyer_menu(dispatcher)
     register_buyer_settings_menu(dispatcher)
     register_buyer_register_menu(dispatcher)
     register_users_cancels_menu(dispatcher)
@@ -54,14 +57,20 @@ async def on_startup(dispatcher: Dispatcher):
     logger.info('Bot starting users alert')
     users = await get_alerts()
     for user in users:
-        await bot.send_message(chat_id=user[0], text=ALERT_STARTUP_MESSAGE, disable_notification=True)
+        try:
+            await bot.send_message(chat_id=user[0], text=ALERT_STARTUP_MESSAGE, disable_notification=True)
+        except BotBlocked:
+            pass
 
 
 async def on_shutdown(dispatcher: Dispatcher):
     logger.info('Bot stopped users alert')
     users = await get_alerts()
     for user in users:
-        await bot.send_message(chat_id=user[0], text=ALERT_SHUTDOWN_MESSAGE, disable_notification=True)
+        try:
+            await bot.send_message(chat_id=user[0], text=ALERT_SHUTDOWN_MESSAGE, disable_notification=True)
+        except BotBlocked:
+            pass
 
     logger.info('Closing PostgreSQL connection')
     await shutdown_setup()
