@@ -28,10 +28,12 @@ def buyer_settings_menu_ikb(alert_ikb_message: str, alert_data: str) -> InlineKe
 
     ikb = InlineKeyboardMarkup(row_width=ROW_WIDTH)
 
-    ikb.row(InlineKeyboardButton(text=BUYER_CHANGE_CITY_IKB_MESSAGE, callback_data=BUYER_CHANGE_CITY_DATA))
-    ikb.row(InlineKeyboardButton(text=BUYER_CHANGE_BRAND_IKB_MESSAGE, callback_data=BUYER_CHANGE_BRAND_DATA))
-    ikb.row(InlineKeyboardButton(text=BUYER_RESET_BRAND_IKB_MESSAGE, callback_data=BUYER_RESET_BRAND_DATA))
+    ikb.row(
+        InlineKeyboardButton(text=BUYER_CHANGE_CITY_IKB_MESSAGE, callback_data=BUYER_CHANGE_CITY_DATA),
+        InlineKeyboardButton(text=BUYER_CHANGE_BRAND_IKB_MESSAGE, callback_data=BUYER_CHANGE_BRAND_DATA)
+    )
     ikb.row(InlineKeyboardButton(text=alert_ikb_message, callback_data=alert_data))
+    ikb.row(InlineKeyboardButton(text=BUYER_RESET_BRAND_IKB_MESSAGE, callback_data=BUYER_RESET_BRAND_DATA))
     ikb.row(InlineKeyboardButton(text=CANCEL_TO_MAIN_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_MAIN_MENU_DATA))
 
     return ikb

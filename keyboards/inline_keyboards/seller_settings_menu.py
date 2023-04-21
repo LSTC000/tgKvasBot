@@ -25,8 +25,10 @@ def seller_settings_menu_ikb() -> InlineKeyboardMarkup:
 
     ikb = InlineKeyboardMarkup(row_width=ROW_WIDTH)
 
-    ikb.row(InlineKeyboardButton(text=SELLER_CHANGE_CITY_IKB_MESSAGE, callback_data=SELLER_CHANGE_CITY_DATA))
-    ikb.row(InlineKeyboardButton(text=SELLER_CHANGE_BRAND_IKB_MESSAGE, callback_data=SELLER_CHANGE_BRAND_DATA))
+    ikb.row(
+        InlineKeyboardButton(text=SELLER_CHANGE_CITY_IKB_MESSAGE, callback_data=SELLER_CHANGE_CITY_DATA),
+        InlineKeyboardButton(text=SELLER_CHANGE_BRAND_IKB_MESSAGE, callback_data=SELLER_CHANGE_BRAND_DATA)
+    )
     ikb.row(InlineKeyboardButton(text=DELETE_SELLER_IKB_MESSAGE, callback_data=DELETE_SELLER_DATA))
     ikb.row(InlineKeyboardButton(text=CANCEL_TO_SELLER_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_SELLER_MENU_DATA))
 
