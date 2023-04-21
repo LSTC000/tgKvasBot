@@ -4,7 +4,7 @@ from data.redis import LAST_IKB_REDIS_KEY, IKB_PAGE_REDIS_KEY, BRAND_REGISTER_RE
 
 from data.callbacks import BUYER_CHOICE_BRAND_DATA
 
-from data.messages import BUYER_REGISTER_MESSAGE, BUYER_CHOICE_BRAND_MESSAGE, BUYER_SAVE_CHOICE_BRAND_MESSAGE
+from data.messages import BUYER_REGISTER_MENU_MESSAGE, BUYER_CHOICE_BRAND_MESSAGE, BUYER_SAVE_CHOICE_BRAND_MESSAGE
 
 from functions import get_brands_from_cache, reload_ikb
 
@@ -77,6 +77,11 @@ async def enter_buyer_choice_brand(callback: types.CallbackQuery, state: FSMCont
             data.pop(IKB_PAGE_REDIS_KEY)
 
         # Вызываем меню для регистрации.
-        await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
+        await reload_ikb(
+            user_id=user_id,
+            text=BUYER_REGISTER_MENU_MESSAGE,
+            new_ikb=buyer_register_menu_ikb,
+            state=state
+        )
 
         await BuyerRegisterMenuStatesGroup.register_menu.set()

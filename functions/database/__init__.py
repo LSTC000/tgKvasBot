@@ -1,5 +1,5 @@
-__all__ = ['is_buyer', 'is_alert']
+__all__ = ['is_buyer', 'is_seller']
 
 
 from .is_buyer import is_buyer
-from .is_alert import is_alert
+from .is_seller import is_seller

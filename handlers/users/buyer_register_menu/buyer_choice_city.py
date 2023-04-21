@@ -4,7 +4,7 @@ from data.redis import LAST_IKB_REDIS_KEY, IKB_PAGE_REDIS_KEY, CITY_REGISTER_RED
 
 from data.callbacks import BUYER_CHOICE_CITY_DATA
 
-from data.messages import BUYER_REGISTER_MESSAGE, BUYER_CHOICE_CITY_MESSAGE, BUYER_SAVE_CHOICE_CITY_MESSAGE
+from data.messages import BUYER_REGISTER_MENU_MESSAGE, BUYER_CHOICE_CITY_MESSAGE, BUYER_SAVE_CHOICE_CITY_MESSAGE
 
 from functions import get_cities_from_cache, reload_ikb
 
@@ -77,6 +77,11 @@ async def enter_buyer_choice_city(callback: types.CallbackQuery, state: FSMConte
             data.pop(IKB_PAGE_REDIS_KEY)
 
         # Вызываем меню регистрации.
-        await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
+        await reload_ikb(
+            user_id=user_id,
+            text=BUYER_REGISTER_MENU_MESSAGE,
+            new_ikb=buyer_register_menu_ikb,
+            state=state
+        )
 
         await BuyerRegisterMenuStatesGroup.register_menu.set()

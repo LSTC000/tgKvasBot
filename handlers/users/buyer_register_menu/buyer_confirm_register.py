@@ -6,7 +6,7 @@ from data.callbacks import CONFIRM_BUYER_REGISTER_DATA
 
 from data.messages import (
     MENU_MESSAGE,
-    BUYER_REGISTER_MESSAGE,
+    BUYER_REGISTER_MENU_MESSAGE,
     BUYER_SUCCESSFULLY_REGISTER_MESSAGE,
     BUYER_UNSUCCESSFULLY_REGISTER_MESSAGE
 )
@@ -58,6 +58,11 @@ async def buyer_confirm_register(callback: types.CallbackQuery, state: FSMContex
         await bot.send_message(chat_id=user_id, text=BUYER_UNSUCCESSFULLY_REGISTER_MESSAGE)
 
         # Вызываем меню регистрации.
-        await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
+        await reload_ikb(
+            user_id=user_id,
+            text=BUYER_REGISTER_MENU_MESSAGE,
+            new_ikb=buyer_register_menu_ikb,
+            state=state
+        )
 
         await BuyerRegisterMenuStatesGroup.register_menu.set()
