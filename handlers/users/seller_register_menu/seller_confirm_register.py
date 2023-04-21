@@ -5,7 +5,7 @@ from data.redis import LAST_IKB_REDIS_KEY, CITY_REGISTER_REDIS_KEY, BRAND_REGIST
 from data.callbacks import CONFIRM_SELLER_REGISTER_DATA
 
 from data.messages import (
-    SELLER_MENU_MESSAGES,
+    SELLER_MENU_MESSAGE,
     SELLER_REGISTER_MENU_MESSAGE,
     SELLER_SUCCESSFULLY_REGISTER_MESSAGE,
     SELLER_UNSUCCESSFULLY_REGISTER_MESSAGE,
@@ -92,7 +92,7 @@ async def enter_seller_register_code(message: types.Message, state: FSMContext) 
         # Вызываем меню продавца.
         await reload_ikb(
             user_id=user_id,
-            text=SELLER_MENU_MESSAGES,
+            text=SELLER_MENU_MESSAGE,
             new_ikb=seller_menu_ikb,
             state=state,
             ikb_params=await get_seller_menu_ikb_params(user_id)

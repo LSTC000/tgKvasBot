@@ -2,7 +2,7 @@ from loader import dp, seller_cache
 
 from data.callbacks import SELLER_MENU_DATA
 
-from data.messages import SELLER_MENU_MESSAGES, SELLER_REGISTER_MENU_MESSAGE
+from data.messages import SELLER_MENU_MESSAGE, SELLER_REGISTER_MENU_MESSAGE
 
 from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 
@@ -24,7 +24,7 @@ async def seller_menu(message: types.Message, state: FSMContext) -> None:
         # Вызываем меню продавца.
         await reload_ikb(
             user_id=user_id,
-            text=SELLER_MENU_MESSAGES,
+            text=SELLER_MENU_MESSAGE,
             new_ikb=seller_menu_ikb,
             state=state,
             ikb_params=await get_seller_menu_ikb_params(user_id)
@@ -37,7 +37,7 @@ async def seller_menu(message: types.Message, state: FSMContext) -> None:
         # Вызываем меню продавца.
         await reload_ikb(
             user_id=user_id,
-            text=SELLER_MENU_MESSAGES,
+            text=SELLER_MENU_MESSAGE,
             new_ikb=seller_menu_ikb,
             state=state,
             ikb_params=await get_seller_menu_ikb_params(user_id)

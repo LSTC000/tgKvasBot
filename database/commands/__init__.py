@@ -19,7 +19,10 @@ __all__ = [
     'update_seller_availability',
     'update_seller_working',
     'update_seller_pause',
-    'delete_alert'
+    'delete_alert',
+    'delete_seller',
+    'delete_seller_info',
+    'delete_seller_address'
 ]
 
 
@@ -44,3 +47,6 @@ from .update_seller_availability import update_seller_availability
 from .update_seller_working import update_seller_working
 from .update_seller_pause import update_seller_pause
 from .delete_alert import delete_alert
+from .delete_seller import delete_seller
+from .delete_seller_info import delete_seller_info
+from .delete_seller_address import delete_seller_address

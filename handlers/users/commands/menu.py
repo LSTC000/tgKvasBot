@@ -2,7 +2,7 @@ from loader import dp, buyer_cache
 
 from data.callbacks import START_COMMAND_DATA
 
-from data.messages import MENU_MESSAGE, BUYER_REGISTER_MENU_MESSAGE
+from data.messages import MAIN_MENU_MESSAGE, BUYER_REGISTER_MENU_MESSAGE
 
 from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 
@@ -22,14 +22,14 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
 
     if user_id in buyer_cache:
         # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()
     elif await is_buyer(user_id):
         buyer_cache[user_id] = None
 
         # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()
     else:
@@ -50,14 +50,14 @@ async def callback_menu_command(message: types.Message, state: FSMContext) -> No
 
     if user_id in buyer_cache:
         # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()
     elif await is_buyer(user_id):
         buyer_cache[user_id] = None
 
         # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()
     else:

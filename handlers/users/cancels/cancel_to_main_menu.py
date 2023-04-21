@@ -4,7 +4,7 @@ from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 
 from data.callbacks import CANCEL_TO_MAIN_MENU_DATA
 
-from data.messages import MENU_MESSAGE
+from data.messages import MAIN_MENU_MESSAGE
 
 from functions import reload_ikb
 
@@ -36,6 +36,6 @@ async def cancel_to_main_menu(callback: types.CallbackQuery, state: FSMContext) 
             data.pop(BRAND_REGISTER_REDIS_KEY)
 
     # Вызываем главное меню.
-    await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+    await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
     await MainMenuStatesGroup.main_menu.set()

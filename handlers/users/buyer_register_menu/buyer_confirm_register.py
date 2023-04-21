@@ -5,7 +5,7 @@ from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 from data.callbacks import CONFIRM_BUYER_REGISTER_DATA
 
 from data.messages import (
-    MENU_MESSAGE,
+    MAIN_MENU_MESSAGE,
     BUYER_REGISTER_MENU_MESSAGE,
     BUYER_SUCCESSFULLY_REGISTER_MESSAGE,
     BUYER_UNSUCCESSFULLY_REGISTER_MESSAGE
@@ -50,7 +50,7 @@ async def buyer_confirm_register(callback: types.CallbackQuery, state: FSMContex
             data.pop(BRAND_REGISTER_REDIS_KEY)
 
         # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
 
         await MainMenuStatesGroup.main_menu.set()
     else:
