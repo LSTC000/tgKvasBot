@@ -4,8 +4,7 @@ from data.callbacks import START_COMMAND_DATA
 
 from data.messages import START_COMMAND_IKB_MESSAGE
 
-from aiogram.types import InlineKeyboardMarkup
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def start_command_ikb() -> InlineKeyboardMarkup:

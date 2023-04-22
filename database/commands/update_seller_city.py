@@ -1,4 +1,4 @@
-from database import SellerAddress
+from database import SellerGeodata
 
 
 async def update_seller_city(seller_id: int, city: str):
@@ -7,4 +7,4 @@ async def update_seller_city(seller_id: int, city: str):
     :param city: Новый выбранный город продавца.
     """
 
-    await SellerAddress.update.values(city=city).where(SellerAddress.seller_id == seller_id).gino.scalar()
+    await SellerGeodata.update.values(city=city).where(SellerGeodata.seller_id == seller_id).gino.scalar()

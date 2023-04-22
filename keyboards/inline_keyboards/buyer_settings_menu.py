@@ -14,8 +14,7 @@ from data.messages import (
     CANCEL_TO_MAIN_MENU_IKB_MESSAGE
 )
 
-from aiogram.types import InlineKeyboardMarkup
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def buyer_settings_menu_ikb(alert_ikb_message: str, alert_data: str) -> InlineKeyboardMarkup:

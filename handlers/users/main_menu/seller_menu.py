@@ -1,14 +1,14 @@
-from loader import dp, seller_cache
+from loader import dp, bot, seller_cache
 
 from data.callbacks import SELLER_MENU_DATA
 
-from data.messages import SELLER_MENU_MESSAGE, SELLER_REGISTER_MENU_MESSAGE
+from data.messages import SELLER_MENU_MESSAGE, SELLER_REGISTER_MENU_MESSAGE, SELLER_UPDATE_GEODATA_MESSAGE
 
 from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 
-from keyboards import seller_menu_ikb, seller_register_menu_ikb
+from keyboards import seller_menu_ikb, seller_register_menu_ikb, seller_update_geodata_menu_rkb
 
-from functions import is_seller, reload_ikb, get_seller_menu_ikb_params
+from functions import is_seller, reload_ikb, reload_rkb, get_seller_menu_ikb_params
 
 from states import MainMenuStatesGroup, SellerRegisterMenuStatesGroup
 
@@ -29,6 +29,12 @@ async def seller_menu(message: types.Message, state: FSMContext) -> None:
             state=state,
             ikb_params=await get_seller_menu_ikb_params(user_id)
         )
+        await reload_rkb(
+            user_id=user_id,
+            text=SELLER_UPDATE_GEODATA_MESSAGE,
+            new_rkb=seller_update_geodata_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.seller_menu.set()
     elif await is_seller(user_id):
@@ -41,6 +47,12 @@ async def seller_menu(message: types.Message, state: FSMContext) -> None:
             new_ikb=seller_menu_ikb,
             state=state,
             ikb_params=await get_seller_menu_ikb_params(user_id)
+        )
+        await reload_rkb(
+            user_id=user_id,
+            text=SELLER_UPDATE_GEODATA_MESSAGE,
+            new_rkb=seller_update_geodata_menu_rkb,
+            state=state
         )
 
         await MainMenuStatesGroup.seller_menu.set()

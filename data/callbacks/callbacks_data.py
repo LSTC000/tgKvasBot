@@ -5,7 +5,6 @@ CANCEL_TO_LAST_MENU_DATA = 'cancel_to_back'
 # COMMANDS.
 START_COMMAND_DATA = 'start_command'
 # MAIN MENU.
-FIND_NEAREST_SELLER_DATA = 'find_nearest_seller'
 SELLER_MENU_DATA = 'seller_menu'
 SETTINGS_MAIN_MENU_DATA = 'settings_main_menu'
 # SELLER MENU.
@@ -15,6 +14,7 @@ START_WORKING_DATA = 'start_working'
 STOP_WORKING_DATA = 'stop_working'
 START_PAUSE_DATA = 'start_pause'
 STOP_PAUSE_DATA = 'stop_pause'
+SHOW_GEODATA_DATA = 'show_geodata'
 SETTINGS_SELLER_MENU_DATA = 'settings_seller_menu'
 # BUYER REGISTER MENU.
 BUYER_CHOICE_CITY_DATA = 'buyer_choice_city'

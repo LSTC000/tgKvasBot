@@ -2,10 +2,10 @@ from loader import logger
 
 from asyncpg import UniqueViolationError
 
-from database import SellerAddress
+from database import SellerGeodata
 
 
-async def add_seller_address(
+async def add_seller_geodata(
     seller_id: int,
     city: str,
     brand: str,
@@ -26,7 +26,7 @@ async def add_seller_address(
     '''
 
     try:
-        seller_address = SellerAddress(
+        seller_address = SellerGeodata(
             seller_id=seller_id,
             city=city,
             brand=brand,

@@ -6,6 +6,7 @@ from data.callbacks import CONFIRM_BUYER_REGISTER_DATA
 
 from data.messages import (
     MAIN_MENU_MESSAGE,
+    FIND_NEAREST_SELLER_MESSAGE,
     BUYER_REGISTER_MENU_MESSAGE,
     BUYER_SUCCESSFULLY_REGISTER_MESSAGE,
     BUYER_UNSUCCESSFULLY_REGISTER_MESSAGE
@@ -13,9 +14,9 @@ from data.messages import (
 
 from database import add_alert, add_buyer
 
-from functions import reload_ikb
+from functions import reload_ikb, reload_rkb
 
-from keyboards import main_menu_ikb, buyer_register_menu_ikb
+from keyboards import main_menu_ikb, buyer_register_menu_ikb, buyer_find_nearest_seller_menu_rkb
 
 from states import MainMenuStatesGroup, BuyerRegisterMenuStatesGroup
 
@@ -51,6 +52,12 @@ async def buyer_confirm_register(callback: types.CallbackQuery, state: FSMContex
 
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.main_menu.set()
     else:

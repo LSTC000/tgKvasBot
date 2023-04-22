@@ -2,13 +2,13 @@ from loader import dp, buyer_cache
 
 from data.callbacks import START_COMMAND_DATA
 
-from data.messages import MAIN_MENU_MESSAGE, BUYER_REGISTER_MENU_MESSAGE
+from data.messages import MAIN_MENU_MESSAGE, FIND_NEAREST_SELLER_MESSAGE, BUYER_REGISTER_MENU_MESSAGE
 
 from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
 
-from keyboards import main_menu_ikb, buyer_register_menu_ikb
+from keyboards import main_menu_ikb, buyer_register_menu_ikb, buyer_find_nearest_seller_menu_rkb
 
-from functions import is_buyer, reload_ikb
+from functions import is_buyer, reload_ikb, reload_rkb
 
 from states import MainMenuStatesGroup, BuyerRegisterMenuStatesGroup
 
@@ -23,6 +23,12 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
     if user_id in buyer_cache:
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.main_menu.set()
     elif await is_buyer(user_id):
@@ -30,6 +36,12 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
 
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.main_menu.set()
     else:
@@ -51,6 +63,12 @@ async def callback_menu_command(message: types.Message, state: FSMContext) -> No
     if user_id in buyer_cache:
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.main_menu.set()
     elif await is_buyer(user_id):
@@ -58,6 +76,12 @@ async def callback_menu_command(message: types.Message, state: FSMContext) -> No
 
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
+            state=state
+        )
 
         await MainMenuStatesGroup.main_menu.set()
     else:

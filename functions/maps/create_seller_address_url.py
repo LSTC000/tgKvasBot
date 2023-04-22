@@ -36,5 +36,5 @@ async def create_seller_address_url(user_id: str, longitude: str, latitude: str)
     except (JSONDecodeError, KeyError, IndexError, AttributeError, TypeError, FileNotFoundError, IOError):
         return None
 
-    # Отправляем url с адресом и сам адрес в качестве ответа функции.
-    return MAPS_SEARCH_URL.format(longitude, latitude), address
+    # Отправляем адрес и url с адресом в качестве ответа функции.
+    return address, MAPS_SEARCH_URL.format(longitude, latitude)

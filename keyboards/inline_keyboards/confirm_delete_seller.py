@@ -4,8 +4,7 @@ from data.callbacks import CONFIRM_DELETE_SELLER_DATA, CANCEL_DELETE_SELLER_DATA
 
 from data.messages import CONFIRM_DELETE_SELLER_IKB_MESSAGE, CANCEL_DELETE_SELLER_IKB_MESSAGE
 
-from aiogram.types import InlineKeyboardMarkup
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def confirm_delete_seller_ikb() -> InlineKeyboardMarkup:

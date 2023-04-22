@@ -1,11 +1,10 @@
 from data.config import ROW_WIDTH
 
-from data.callbacks import FIND_NEAREST_SELLER_DATA, SELLER_MENU_DATA, SETTINGS_MAIN_MENU_DATA
+from data.callbacks import SELLER_MENU_DATA, SETTINGS_MAIN_MENU_DATA
 
-from data.messages import FIND_NEAREST_SELLER_IKB_MESSAGE, SELLER_MENU_IKB_MESSAGE, SETTINGS_MAIN_MENU_IKB_MESSAGE
+from data.messages import SELLER_MENU_IKB_MESSAGE, SETTINGS_MAIN_MENU_IKB_MESSAGE
 
-from aiogram.types import InlineKeyboardMarkup
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def main_menu_ikb() -> InlineKeyboardMarkup:
@@ -15,7 +14,6 @@ def main_menu_ikb() -> InlineKeyboardMarkup:
 
     ikb = InlineKeyboardMarkup(row_width=ROW_WIDTH)
 
-    ikb.row(InlineKeyboardButton(text=FIND_NEAREST_SELLER_IKB_MESSAGE, callback_data=FIND_NEAREST_SELLER_DATA))
     ikb.row(InlineKeyboardButton(text=SELLER_MENU_IKB_MESSAGE, callback_data=SELLER_MENU_DATA))
     ikb.row(InlineKeyboardButton(text=SETTINGS_MAIN_MENU_IKB_MESSAGE, callback_data=SETTINGS_MAIN_MENU_DATA))
 

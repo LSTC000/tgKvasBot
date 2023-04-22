@@ -1,6 +1,6 @@
 from loader import seller_cache
 
-from database import delete_seller, delete_seller_info, delete_seller_address
+from database import delete_seller, delete_seller_info, delete_seller_geodata
 
 
 async def full_delete_seller(seller_id: int):
@@ -11,7 +11,7 @@ async def full_delete_seller(seller_id: int):
     # Удаляем продавца из БД.
     await delete_seller(seller_id)
     await delete_seller_info(seller_id)
-    await delete_seller_address(seller_id)
+    await delete_seller_geodata(seller_id)
 
     # Если продавец ещё в кэше, то удаляем его оттуда.
     if seller_id in seller_cache:

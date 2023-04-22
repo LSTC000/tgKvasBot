@@ -4,14 +4,20 @@ from data.callbacks import DELETE_SELLER_DATA, CONFIRM_DELETE_SELLER_DATA, CANCE
 
 from data.messages import (
     MAIN_MENU_MESSAGE,
+    FIND_NEAREST_SELLER_MESSAGE,
     SELLER_SETTINGS_MENU_MESSAGE,
     DELETE_SELLER_MESSAGE,
     SUCCESSFULLY_DELETE_SELLER_MESSAGE
 )
 
-from functions import reload_ikb, full_delete_seller
+from functions import reload_ikb, reload_rkb, full_delete_seller
 
-from keyboards import confirm_delete_seller_ikb, seller_settings_menu_ikb, main_menu_ikb
+from keyboards import (
+    confirm_delete_seller_ikb,
+    seller_settings_menu_ikb,
+    main_menu_ikb,
+    buyer_find_nearest_seller_menu_rkb
+)
 
 from states import MainMenuStatesGroup, SellerMenuStatesGroup, SellerSettingsStatesGroup
 
@@ -47,6 +53,12 @@ async def confirm_delete_seller(callback: types.CallbackQuery, state: FSMContext
             user_id=user_id,
             text=MAIN_MENU_MESSAGE,
             new_ikb=main_menu_ikb,
+            state=state
+        )
+        await reload_rkb(
+            user_id=user_id,
+            text=FIND_NEAREST_SELLER_MESSAGE,
+            new_rkb=buyer_find_nearest_seller_menu_rkb,
             state=state
         )
 

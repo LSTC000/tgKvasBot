@@ -5,12 +5,12 @@ from database.database_setup import BaseModel
 from sqlalchemy import Column, BigInteger, VARCHAR, TEXT, DateTime, sql, func
 
 
-class SellerAddress(BaseModel):
-    __tablename__ = 'seller_coordinates'
+class SellerGeodata(BaseModel):
+    __tablename__ = 'seller_geodata'
 
     # Auto increment id.
     id = Column(BigInteger, primary_key=True, autoincrement=True,
-                server_default=sql.text('nextval(\'seller_coordinate_id_seq\')'))
+                server_default=sql.text('nextval(\'seller_geodata_id_seq\')'))
     # Telegram user id.
     seller_id = Column(BigInteger,  nullable=False)
     # City name.

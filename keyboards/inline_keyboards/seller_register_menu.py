@@ -16,8 +16,7 @@ from data.messages import (
     SUPPORT_SELLER_REGISTER_IKB_MESSAGE
 )
 
-from aiogram.types import InlineKeyboardMarkup
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def seller_register_menu_ikb() -> InlineKeyboardMarkup:

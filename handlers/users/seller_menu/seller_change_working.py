@@ -4,6 +4,8 @@ from data.redis import LAST_IKB_REDIS_KEY
 
 from data.callbacks import START_WORKING_DATA, STOP_WORKING_DATA
 
+from data.messages import ALERT_SELLER_UPDATE_GEODATA_MESSAGE
+
 from database import update_seller_working
 
 from keyboards import seller_menu_ikb
@@ -24,8 +26,9 @@ async def seller_change_working(callback: types.CallbackQuery, state: FSMContext
     user_id = callback.from_user.id
 
     if callback.data == START_WORKING_DATA:
-        # Запоминаем, что продавец начал работу.
+        # Запоминаем, что продавец начал работу и отправляем ему оповещение о необходимости обновить свои геоданные.
         await update_seller_working(seller_id=user_id, working=1)
+        await callback.answer(text=ALERT_SELLER_UPDATE_GEODATA_MESSAGE, show_alert=True)
     else:
         # Запоминаем, что продавец прекратил работу.
         await update_seller_working(seller_id=user_id, working=0)

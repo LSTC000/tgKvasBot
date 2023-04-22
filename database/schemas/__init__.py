@@ -1,7 +1,7 @@
 __all__ = [
     'Seller',
     'SellerInfo',
-    'SellerAddress',
+    'SellerGeodata',
     'Buyer',
     'Cities',
     'Brands',
@@ -11,7 +11,7 @@ __all__ = [
 
 from .seller import Seller
 from .seller_info import SellerInfo
-from .seller_address import SellerAddress
+from .seller_geodata import SellerGeodata
 from .buyer import Buyer
 from .cities import Cities
 from .brands import Brands
