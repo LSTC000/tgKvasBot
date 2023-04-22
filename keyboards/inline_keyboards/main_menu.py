@@ -14,7 +14,9 @@ def main_menu_ikb() -> InlineKeyboardMarkup:
 
     ikb = InlineKeyboardMarkup(row_width=ROW_WIDTH)
 
-    ikb.row(InlineKeyboardButton(text=SELLER_MENU_IKB_MESSAGE, callback_data=SELLER_MENU_DATA))
-    ikb.row(InlineKeyboardButton(text=SETTINGS_MAIN_MENU_IKB_MESSAGE, callback_data=SETTINGS_MAIN_MENU_DATA))
+    ikb.row(
+        InlineKeyboardButton(text=SELLER_MENU_IKB_MESSAGE, callback_data=SELLER_MENU_DATA),
+        InlineKeyboardButton(text=SETTINGS_MAIN_MENU_IKB_MESSAGE, callback_data=SETTINGS_MAIN_MENU_DATA)
+    )
 
     return ikb

@@ -7,18 +7,18 @@ from data.config import MAPS_GEOCODER_TOKEN, MAPS_GEOCODER_URL, MAPS_SEARCH_URL
 import httpx
 
 
-async def create_seller_address_url(user_id: str, longitude: str, latitude: str) -> Union[None, Tuple[str, str]]:
+async def create_seller_address_url(user_id: str, latitude: str, longitude: str) -> Union[None, Tuple[str, str]]:
     """
     :param user_id: Телеграм user id пользователя.
-    :param longitude: Долгота.
     :param latitude: Широта.
+    :param longitude: Долгота.
     :return: Если не возникла ошибка, то возвращаем url с адресом и сам адрес ближайшей бочки с квасом.
         Иначе возваращаем None.
     """
 
     # Формируем ссылку для запроса к сервису Яндекс.Карты с целью получить адрес ближайшей бочки с квасом по
     # координатам долготы и широты.
-    url = MAPS_GEOCODER_URL.format(MAPS_GEOCODER_TOKEN, longitude, latitude)
+    url = MAPS_GEOCODER_URL.format(MAPS_GEOCODER_TOKEN, latitude, longitude)
 
     # Отправляем асинхронный запрос и обрабатываем возможные ошибки
     try:

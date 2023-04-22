@@ -67,7 +67,7 @@ async def seller_confirm_register(callback: types.CallbackQuery, state: FSMConte
         await SellerRegisterMenuStatesGroup.register_menu.set()
 
 
-@dp.message_handler(content_types=['text'], state=SellerRegisterMenuStatesGroup.register_code)
+@dp.message_handler(content_types=types.ContentTypes.TEXT, state=SellerRegisterMenuStatesGroup.register_code)
 async def enter_seller_register_code(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
 

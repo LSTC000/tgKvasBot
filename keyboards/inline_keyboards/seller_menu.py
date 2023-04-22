@@ -33,8 +33,10 @@ def seller_menu_ikb(
     ikb.row(InlineKeyboardButton(text=availability_message, callback_data=availability_data))
     ikb.row(InlineKeyboardButton(text=pause_message, callback_data=pause_data))
     ikb.row(InlineKeyboardButton(text=working_message, callback_data=working_data))
-    ikb.row(InlineKeyboardButton(text=SHOW_GEODATA_IKB_MESSAGE, callback_data=SHOW_GEODATA_DATA))
-    ikb.row(InlineKeyboardButton(text=SETTINGS_SELLER_MENU_IKB_MESSAGE, callback_data=SETTINGS_SELLER_MENU_DATA))
+    ikb.row(
+        InlineKeyboardButton(text=SHOW_GEODATA_IKB_MESSAGE, callback_data=SHOW_GEODATA_DATA),
+        InlineKeyboardButton(text=SETTINGS_SELLER_MENU_IKB_MESSAGE, callback_data=SETTINGS_SELLER_MENU_DATA)
+    )
     ikb.row(InlineKeyboardButton(text=CANCEL_TO_MAIN_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_MAIN_MENU_DATA))
 
     return ikb

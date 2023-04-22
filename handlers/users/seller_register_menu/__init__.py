@@ -15,5 +15,5 @@ def register_seller_register_menu(dp: Dispatcher):
     dp.register_callback_query_handler(seller_choice_brand)
     dp.register_callback_query_handler(enter_seller_choice_brand)
     dp.register_callback_query_handler(seller_confirm_register)
-    dp.register_callback_query_handler(enter_seller_register_code)
+    dp.register_message_handler(enter_seller_register_code)
     dp.register_callback_query_handler(support_seller_register)

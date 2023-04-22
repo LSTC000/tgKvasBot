@@ -2,11 +2,11 @@ from loader import dp, bot
 
 from data.callbacks import SHOW_GEODATA_DATA
 
-from data.messages import SELLER_MENU_MESSAGE, NONE_SELLER_GEODATA_MESSAGE
+from data.messages import SELLER_MENU_MESSAGE, SELLER_UPDATE_GEODATA_MESSAGE, NONE_SELLER_GEODATA_MESSAGE
 
-from functions import reload_ikb, get_seller_menu_ikb_params, get_seller_geodata_dict
+from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params, get_seller_geodata_dict
 
-from keyboards import seller_menu_ikb
+from keyboards import seller_menu_ikb, seller_update_geodata_menu_rkb
 
 from states import MainMenuStatesGroup
 
@@ -35,4 +35,10 @@ async def seller_show_geodata(callback: types.CallbackQuery, state: FSMContext) 
         new_ikb=seller_menu_ikb,
         state=state,
         ikb_params=await get_seller_menu_ikb_params(user_id)
+    )
+    await reload_rkb(
+        user_id=user_id,
+        text=SELLER_UPDATE_GEODATA_MESSAGE,
+        new_rkb=seller_update_geodata_menu_rkb,
+        state=state
     )
