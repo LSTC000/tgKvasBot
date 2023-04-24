@@ -6,7 +6,9 @@ from data.redis import (
     CITY_REGISTER_REDIS_KEY,
     BRAND_REGISTER_REDIS_KEY,
     IKB_PAGE_REDIS_KEY,
-    NEAREST_SELLERS_REDIS_KEY
+    NEAREST_SELLERS_REDIS_KEY,
+    LAST_SELLER_INFO_REDIS_KEY,
+    LAST_SEND_LOCATION_IKB_REDIS_KEY
 )
 
 from data.messages import START_MESSAGE
@@ -32,6 +34,16 @@ async def start_command(message: types.Message, state: FSMContext) -> None:
         if LAST_RKB_REDIS_KEY in data:
             try:
                 await bot.delete_message(chat_id=user_id, message_id=data[LAST_RKB_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
+        if LAST_SELLER_INFO_REDIS_KEY in data:
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
+        if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
             except MessageToDeleteNotFound:
                 pass
 

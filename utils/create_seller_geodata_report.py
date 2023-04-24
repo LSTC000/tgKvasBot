@@ -8,4 +8,4 @@ def create_seller_geodata_report(seller_geodata_dict: dict) -> str:
            f'💼 <b>Бренд:</b> {seller_geodata_dict["brand"]}.\n\n' \
            f'📍 <b>Широта:</b> {seller_geodata_dict["latitude"]}.\n\n' \
            f'📍 <b>Долгота:</b> {seller_geodata_dict["longitude"]}.\n\n' \
-           f'<b>Ваша геолокация</b> 👇'
+           f'🌐 Ваша геолокация 👇'
