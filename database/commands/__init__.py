@@ -20,8 +20,6 @@ __all__ = [
     'update_seller_brand',
     'update_seller_latitude',
     'update_seller_longitude',
-    'update_seller_address',
-    'update_seller_address_url',
     'update_seller_availability',
     'update_seller_working',
     'update_seller_pause',
@@ -53,8 +51,6 @@ from .update_seller_city import update_seller_city
 from .update_seller_brand import update_seller_brand
 from .update_seller_latitude import update_seller_latitude
 from .update_seller_longitude import update_seller_longitude
-from .update_seller_address import update_seller_address
-from .update_seller_address_url import update_seller_address_url
 from .update_seller_availability import update_seller_availability
 from .update_seller_working import update_seller_working
 from .update_seller_pause import update_seller_pause

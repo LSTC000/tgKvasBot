@@ -7,7 +7,7 @@ from data.messages import START_COMMAND_IKB_MESSAGE
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def start_command_ikb() -> InlineKeyboardMarkup:
+def start_command_menu_ikb() -> InlineKeyboardMarkup:
     """
     :return: Клавиатура для старта бота.
     """

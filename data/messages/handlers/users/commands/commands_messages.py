@@ -9,5 +9,5 @@ HELP_MESSAGE = '''
 '''
 
 START_SHORT_MESSAGE = 'перезапуск бота'
-MENU_SHORT_MESSAGE = 'главное меню'
+MAIN_MENU_SHORT_MESSAGE = 'главное меню'
 HELP_SHORT_MESSAGE = 'справка'

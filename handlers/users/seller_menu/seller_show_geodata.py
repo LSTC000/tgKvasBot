@@ -25,6 +25,11 @@ async def seller_show_geodata(callback: types.CallbackQuery, state: FSMContext) 
     # Отправляем пользователю информацию о геоданных, если они есть.
     if seller_geodata_dict is not None:
         await bot.send_message(chat_id=user_id, text=create_seller_geodata_report(seller_geodata_dict))
+        await bot.send_location(
+            chat_id=user_id,
+            latitude=seller_geodata_dict['latitude'],
+            longitude=seller_geodata_dict['longitude']
+        )
     else:
         await bot.send_message(chat_id=user_id, text=NONE_SELLER_GEODATA_MESSAGE)
 

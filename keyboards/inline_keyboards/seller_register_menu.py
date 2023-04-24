@@ -31,9 +31,7 @@ def seller_register_menu_ikb() -> InlineKeyboardMarkup:
         InlineKeyboardButton(text=SELLER_CHOICE_BRAND_IKB_MESSAGE, callback_data=SELLER_CHOICE_BRAND_DATA)
     )
     ikb.row(InlineKeyboardButton(text=CONFIRM_SELLER_REGISTER_IKB_MESSAGE, callback_data=CONFIRM_SELLER_REGISTER_DATA))
-    ikb.row(
-        InlineKeyboardButton(text=CANCEL_TO_MAIN_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_MAIN_MENU_DATA),
-        InlineKeyboardButton(text=SUPPORT_SELLER_REGISTER_IKB_MESSAGE, callback_data=SUPPORT_SELLER_REGISTER_DATA)
-    )
+    ikb.row(InlineKeyboardButton(text=SUPPORT_SELLER_REGISTER_IKB_MESSAGE, callback_data=SUPPORT_SELLER_REGISTER_DATA))
+    ikb.row(InlineKeyboardButton(text=CANCEL_TO_MAIN_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_MAIN_MENU_DATA))
 
     return ikb

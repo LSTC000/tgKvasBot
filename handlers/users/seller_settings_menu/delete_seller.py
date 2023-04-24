@@ -13,7 +13,7 @@ from data.messages import (
 from functions import reload_ikb, reload_rkb, full_delete_seller
 
 from keyboards import (
-    confirm_delete_seller_ikb,
+    confirm_delete_seller_menu_ikb,
     seller_settings_menu_ikb,
     main_menu_ikb,
     buyer_find_nearest_seller_menu_rkb
@@ -30,7 +30,7 @@ async def delete_seller(callback: types.CallbackQuery, state: FSMContext) -> Non
     user_id = callback.from_user.id
 
     # Вызываем меню подтверждения удаления продавца.
-    await reload_ikb(user_id=user_id, text=DELETE_SELLER_MESSAGE, new_ikb=confirm_delete_seller_ikb, state=state)
+    await reload_ikb(user_id=user_id, text=DELETE_SELLER_MESSAGE, new_ikb=confirm_delete_seller_menu_ikb, state=state)
 
     await SellerSettingsStatesGroup.confirm_delete.set()
 

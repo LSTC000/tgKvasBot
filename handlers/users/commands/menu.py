@@ -4,7 +4,7 @@ from data.callbacks import START_COMMAND_DATA
 
 from data.messages import MAIN_MENU_MESSAGE, FIND_NEAREST_SELLER_MESSAGE, BUYER_REGISTER_MENU_MESSAGE
 
-from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
+from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY, IKB_PAGE_REDIS_KEY, NEAREST_SELLERS_REDIS_KEY
 
 from keyboards import main_menu_ikb, buyer_register_menu_ikb, buyer_find_nearest_seller_menu_rkb
 
@@ -21,6 +21,20 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
 
     if user_id in buyer_cache:
+        # Удаляем лишние данные из redis, если они есть.
+        async with state.proxy() as data:
+            if CITY_REGISTER_REDIS_KEY in data:
+                data.pop(CITY_REGISTER_REDIS_KEY)
+
+            if BRAND_REGISTER_REDIS_KEY in data:
+                data.pop(BRAND_REGISTER_REDIS_KEY)
+
+            if IKB_PAGE_REDIS_KEY in data:
+                data.pop(IKB_PAGE_REDIS_KEY)
+
+            if NEAREST_SELLERS_REDIS_KEY in data:
+                data.pop(NEAREST_SELLERS_REDIS_KEY)
+
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
         await reload_rkb(
@@ -33,6 +47,20 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
         await MainMenuStatesGroup.main_menu.set()
     elif await is_buyer(user_id):
         buyer_cache[user_id] = None
+
+        # Удаляем лишние данные из redis, если они есть.
+        async with state.proxy() as data:
+            if CITY_REGISTER_REDIS_KEY in data:
+                data.pop(CITY_REGISTER_REDIS_KEY)
+
+            if BRAND_REGISTER_REDIS_KEY in data:
+                data.pop(BRAND_REGISTER_REDIS_KEY)
+
+            if IKB_PAGE_REDIS_KEY in data:
+                data.pop(IKB_PAGE_REDIS_KEY)
+
+            if NEAREST_SELLERS_REDIS_KEY in data:
+                data.pop(NEAREST_SELLERS_REDIS_KEY)
 
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)

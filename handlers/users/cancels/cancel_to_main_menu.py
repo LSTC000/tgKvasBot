@@ -1,6 +1,6 @@
 from loader import dp
 
-from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY
+from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY, IKB_PAGE_REDIS_KEY, NEAREST_SELLERS_REDIS_KEY
 
 from data.callbacks import CANCEL_TO_MAIN_MENU_DATA
 
@@ -35,6 +35,12 @@ async def cancel_to_main_menu(callback: types.CallbackQuery, state: FSMContext) 
 
         if BRAND_REGISTER_REDIS_KEY in data:
             data.pop(BRAND_REGISTER_REDIS_KEY)
+
+        if IKB_PAGE_REDIS_KEY in data:
+            data.pop(IKB_PAGE_REDIS_KEY)
+
+        if NEAREST_SELLERS_REDIS_KEY in data:
+            data.pop(NEAREST_SELLERS_REDIS_KEY)
 
     # Вызываем главное меню.
     await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)

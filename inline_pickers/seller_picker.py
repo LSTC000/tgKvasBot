@@ -1,16 +1,24 @@
 from data.callbacks import CANCEL_TO_MAIN_MENU_DATA
 
-from data.config import NEAREST_SELLER_PICKER_ROW_WIDTH
+from data.config import SELLER_PICKER_ROW_WIDTH
 
 from data.messages import CANCEL_TO_MAIN_MENU_IKB_MESSAGE
 
-from data.redis import IKB_PAGE_REDIS_KEY, NEAREST_SELLERS_REDIS_KEY
+from data.redis import (
+    IKB_PAGE_REDIS_KEY,
+    LAST_SEND_LOCATION_IKB_REDIS_KEY,
+    LAST_SELLER_INFO_REDIS_KEY,
+    NEAREST_SELLERS_REDIS_KEY
+)
+
+from loader import bot
 
 from utils import create_nearest_seller_report
 
 from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 
 class InlineSellerPicker:
@@ -25,7 +33,7 @@ class InlineSellerPicker:
         :return: Клавиатура с меню поиска продавца.
         """
 
-        inline_kb = InlineKeyboardMarkup(row_width=NEAREST_SELLER_PICKER_ROW_WIDTH)
+        inline_kb = InlineKeyboardMarkup(row_width=SELLER_PICKER_ROW_WIDTH)
         ignore_callback = "IGNORE"
 
         count_nearest_sellers = len(nearest_sellers)
@@ -61,21 +69,71 @@ class InlineSellerPicker:
             page = data[IKB_PAGE_REDIS_KEY]
             nearest_sellers = data[NEAREST_SELLERS_REDIS_KEY]
 
+            user_id = callback.from_user.id
+
             if callback_data == "IGNORE":
                 await callback.answer(cache_time=60)
 
             if callback_data == "PREV-SELLER":
                 page -= 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_text(text=create_nearest_seller_report(nearest_sellers[page][0]))
-                await callback.message.edit_reply_markup(
-                    await self.start_seller_picker(nearest_sellers=nearest_sellers, page=page)
+
+                if LAST_SELLER_INFO_REDIS_KEY in data:
+                    try:
+                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
+                    except MessageToDeleteNotFound:
+                        pass
+                if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
+                    try:
+                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
+                    except MessageToDeleteNotFound:
+                        pass
+
+                msg_info = await bot.send_message(
+                    chat_id=user_id,
+                    text=create_nearest_seller_report(nearest_sellers[page][0])
                 )
+                msg_location = await bot.send_location(
+                    chat_id=user_id,
+                    latitude=nearest_sellers[page][0]['latitude'],
+                    longitude=nearest_sellers[page][0]['longitude'],
+                    reply_markup=await InlineSellerPicker().start_seller_picker(
+                        nearest_sellers=nearest_sellers,
+                        page=page
+                    )
+                )
+
+                data[LAST_SELLER_INFO_REDIS_KEY] = msg_info.message_id
+                data[LAST_SEND_LOCATION_IKB_REDIS_KEY] = msg_location.message_id
 
             if callback_data == "NEXT-SELLER":
                 page += 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_text(text=create_nearest_seller_report(nearest_sellers[page][0]))
-                await callback.message.edit_reply_markup(
-                    await self.start_seller_picker(nearest_sellers=nearest_sellers, page=page)
+
+                if LAST_SELLER_INFO_REDIS_KEY in data:
+                    try:
+                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
+                    except MessageToDeleteNotFound:
+                        pass
+                if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
+                    try:
+                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
+                    except MessageToDeleteNotFound:
+                        pass
+
+                msg_info = await bot.send_message(
+                    chat_id=user_id,
+                    text=create_nearest_seller_report(nearest_sellers[page][0])
                 )
+                msg_location = await bot.send_location(
+                    chat_id=user_id,
+                    latitude=nearest_sellers[page][0]['latitude'],
+                    longitude=nearest_sellers[page][0]['longitude'],
+                    reply_markup=await InlineSellerPicker().start_seller_picker(
+                        nearest_sellers=nearest_sellers,
+                        page=page
+                    )
+                )
+
+                data[LAST_SELLER_INFO_REDIS_KEY] = msg_info.message_id
+                data[LAST_SEND_LOCATION_IKB_REDIS_KEY] = msg_location.message_id

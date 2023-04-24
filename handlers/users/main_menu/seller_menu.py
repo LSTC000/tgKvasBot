@@ -1,4 +1,4 @@
-from loader import dp, bot, seller_cache
+from loader import dp, seller_cache
 
 from data.callbacks import SELLER_MENU_DATA
 

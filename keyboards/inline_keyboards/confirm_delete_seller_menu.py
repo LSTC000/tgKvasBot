@@ -7,7 +7,7 @@ from data.messages import CONFIRM_DELETE_SELLER_IKB_MESSAGE, CANCEL_DELETE_SELLE
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def confirm_delete_seller_ikb() -> InlineKeyboardMarkup:
+def confirm_delete_seller_menu_ikb() -> InlineKeyboardMarkup:
     """
     :return: Клавиатура для подтверждения удаления покупателя.
     """

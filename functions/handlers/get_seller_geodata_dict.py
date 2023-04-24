@@ -15,7 +15,5 @@ async def get_seller_geodata_dict(seller_id: int) -> Union[dict, None]:
         'city': seller_geodata['city'],
         'brand': seller_geodata['brand'],
         'latitude': seller_geodata['latitude'],
-        'longitude': seller_geodata['longitude'],
-        'address': seller_geodata['address'],
-        'address_url': seller_geodata['address_url']
+        'longitude': seller_geodata['longitude']
     } if seller_geodata['latitude'] else None

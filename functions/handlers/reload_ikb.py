@@ -1,6 +1,11 @@
 from loader import bot
 
-from data.redis import LAST_IKB_REDIS_KEY, LAST_RKB_REDIS_KEY
+from data.redis import (
+    LAST_IKB_REDIS_KEY,
+    LAST_RKB_REDIS_KEY,
+    LAST_SEND_LOCATION_IKB_REDIS_KEY,
+    LAST_SELLER_INFO_REDIS_KEY
+)
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.utils.exceptions import MessageToDeleteNotFound
@@ -22,7 +27,7 @@ async def reload_ikb(
     :return: None
     '''
 
-    # Удаляем старую ikb и rkb клавиатуры.
+    # Удаляем все старые клавиатуры.
     async with state.proxy() as data:
         if LAST_IKB_REDIS_KEY in data:
             try:
@@ -34,7 +39,19 @@ async def reload_ikb(
                 await bot.delete_message(chat_id=user_id, message_id=data[LAST_RKB_REDIS_KEY])
             except MessageToDeleteNotFound:
                 pass
-
+            data.pop(LAST_RKB_REDIS_KEY)
+        if LAST_SELLER_INFO_REDIS_KEY in data:
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
+            data.pop(LAST_SELLER_INFO_REDIS_KEY)
+        if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
+            try:
+                await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
+            except MessageToDeleteNotFound:
+                pass
+            data.pop(LAST_SEND_LOCATION_IKB_REDIS_KEY)
 
         # Вызываем новую ikb клавиатуру.
         msg = await bot.send_message(

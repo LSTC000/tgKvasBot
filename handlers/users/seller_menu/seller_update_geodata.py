@@ -3,20 +3,17 @@ from loader import dp, bot
 from data.messages import (
     SELLER_MENU_MESSAGE,
     SELLER_UPDATE_GEODATA_MESSAGE,
-    SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE,
-    ERROR_SELLER_UPDATE_GEODATA_MESSAGE
+    SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE
 )
 
 from database import (
     update_seller_latitude,
-    update_seller_longitude,
-    update_seller_address,
-    update_seller_address_url
+    update_seller_longitude
 )
 
 from keyboards import seller_menu_ikb, seller_update_geodata_menu_rkb
 
-from functions import create_seller_address_url, reload_ikb, reload_rkb, get_seller_menu_ikb_params
+from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params
 
 from states import MainMenuStatesGroup
 
@@ -32,21 +29,11 @@ async def seller_update_geodata(message: types.Message, state: FSMContext) -> No
     latitude = message.location.latitude
     longitude = message.location.longitude
 
-    # Достаём адрес и URL адрес покупателя.
-    seller_address_url = await create_seller_address_url(user_id=user_id, latitude=latitude, longitude=longitude)
+    # Добавляем в БД координаты продавца.
+    await update_seller_latitude(user_id, latitude)
+    await update_seller_longitude(user_id, longitude)
 
-    # Если мы получили геоданные покупателя, то добавляем его в БД, иначе отправляем сообщение об ошибке.
-    if seller_address_url is not None:
-        address, address_url = seller_address_url[0], seller_address_url[1]
-
-        await update_seller_latitude(user_id, latitude)
-        await update_seller_longitude(user_id, longitude)
-        await update_seller_address(user_id, address)
-        await update_seller_address_url(user_id, address_url)
-
-        await bot.send_message(chat_id=user_id, text=SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE)
-    else:
-        await bot.send_message(chat_id=user_id, text=ERROR_SELLER_UPDATE_GEODATA_MESSAGE)
+    await bot.send_message(chat_id=user_id, text=SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE)
 
     # Вызываем меню продавца.
     await reload_ikb(

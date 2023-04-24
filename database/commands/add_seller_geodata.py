@@ -10,9 +10,7 @@ async def add_seller_geodata(
     city: str,
     brand: str,
     latitude: str = None,
-    longitude: str = None,
-    address: str = None,
-    address_url: str = None
+    longitude: str = None
 ) -> None:
     '''
     :param seller_id: Телеграм user id.
@@ -20,8 +18,6 @@ async def add_seller_geodata(
     :param brand: Название бренда кваса.
     :param latitude: Широта. По умолчанию: None.
     :param longitude: Долгота. По умолчанию: None.
-    :param address: Адрес продавца. По умолчанию: None.
-    :param address_url: Url адрес продавца. По умолчанию: None.
     :return: None.
     '''
 
@@ -31,10 +27,8 @@ async def add_seller_geodata(
             city=city,
             brand=brand,
             latitude=latitude,
-            longitude=longitude,
-            address=address,
-            address_url=address_url
+            longitude=longitude
         )
         await seller_address.create()
     except UniqueViolationError:
-        logger.info('Error to add seller coordinates! Seller coordinates already exists in the database.')
+        logger.info('Error to add seller geodata! Seller geodata already exists in the database.')

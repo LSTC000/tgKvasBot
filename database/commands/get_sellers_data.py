@@ -34,11 +34,9 @@ async def get_sellers_data(city: str, brand: Union[str, None]) -> dict:
                                         'brand': target_seller_geodata[3],
                                         'latitude': target_seller_geodata[4],
                                         'longitude': target_seller_geodata[5],
-                                        'address': target_seller_geodata[6],
-                                        'address_url': target_seller_geodata[7],
-                                        'availability': target_seller_geodata[11],
-                                        'working': target_seller_geodata[12],
-                                        'pause': target_seller_geodata[13],
+                                        'availability': target_seller_geodata[9],
+                                        'working': target_seller_geodata[10],
+                                        'pause': target_seller_geodata[11],
                                     }
 
     return sellers_data_dict

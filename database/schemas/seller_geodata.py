@@ -2,7 +2,7 @@ import datetime
 
 from database.database_setup import BaseModel
 
-from sqlalchemy import Column, BigInteger, Float, VARCHAR, TEXT, DateTime, sql, func
+from sqlalchemy import Column, BigInteger, Float, VARCHAR, DateTime, sql, func
 
 
 class SellerGeodata(BaseModel):
@@ -21,10 +21,6 @@ class SellerGeodata(BaseModel):
     latitude = Column(Float, nullable=True)
     # Longitude coordinate.
     longitude = Column(Float, nullable=True)
-    # Seller address.
-    address = Column(TEXT, nullable=True)
-    # Url for seller address.
-    address_url = Column(TEXT, nullable=True)
     # Update date.
     updated_date = Column(
         DateTime(True),
