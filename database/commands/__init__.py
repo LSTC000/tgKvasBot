@@ -9,6 +9,7 @@ __all__ = [
     'get_buyer',
     'get_seller',
     'get_seller_info',
+    'get_sellers_data',
     'get_seller_geodata',
     'get_cities',
     'get_brands',
@@ -41,6 +42,7 @@ from .add_alert import add_alert
 from .get_buyer import get_buyer
 from .get_seller import get_seller
 from .get_seller_info import get_seller_info
+from .get_sellers_data import get_sellers_data
 from .get_seller_geodata import get_seller_geodata
 from .get_cities import get_cities
 from .get_brands import get_brands

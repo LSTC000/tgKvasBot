@@ -14,7 +14,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class InlineBrandPicker:
-    async def start_brandpicker(self, brands: List[str], page: int) -> InlineKeyboardMarkup:
+    async def start_brand_picker(self, brands: List[str], page: int) -> InlineKeyboardMarkup:
         """
         :param brands: Список брендов.
         :param page: Страница inline клавиатуры. В начале: 0.
@@ -22,7 +22,7 @@ class InlineBrandPicker:
         """
 
         inline_kb = InlineKeyboardMarkup(row_width=BRAND_PICKER_ROW_WIDTH)
-        ignore_callback = f"IGNORE"
+        ignore_callback = "IGNORE"
 
         count_brands = len(brands)
         start = page * MAX_BRANDS_ON_PAGE
@@ -37,12 +37,12 @@ class InlineBrandPicker:
         inline_kb.row()
         inline_kb.insert(InlineKeyboardButton(
             text="<<" if page != 0 else " ",
-            callback_data=f"PREV-BRANDS" if page != 0 else ignore_callback
+            callback_data="PREV-BRANDS" if page != 0 else ignore_callback
         ))
         inline_kb.insert(InlineKeyboardButton(" ", callback_data=ignore_callback))
         inline_kb.insert(InlineKeyboardButton(
             text=">>" if count_brands > stop else " ",
-            callback_data=f"NEXT-BRANDS" if count_brands > stop else ignore_callback
+            callback_data="NEXT-BRANDS" if count_brands > stop else ignore_callback
         ))
 
         inline_kb.row(InlineKeyboardButton(CANCEL_TO_LAST_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_LAST_MENU_DATA))
@@ -76,11 +76,11 @@ class InlineBrandPicker:
             elif callback_data == "PREV-BRANDS":
                 page -= 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_reply_markup(await self.start_brandpicker(brands=brands, page=page))
+                await callback.message.edit_reply_markup(await self.start_brand_picker(brands=brands, page=page))
             elif callback_data == "NEXT-BRANDS":
                 page += 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_reply_markup(await self.start_brandpicker(brands=brands, page=page))
+                await callback.message.edit_reply_markup(await self.start_brand_picker(brands=brands, page=page))
             elif callback_data == CANCEL_TO_LAST_MENU_DATA:
                 return True, None
             else:

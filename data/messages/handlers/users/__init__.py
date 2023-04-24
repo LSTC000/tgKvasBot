@@ -1,6 +1,7 @@
 from .commands import *
 from .main_menu import *
 from .seller_menu import *
+from .find_nearest_seller import *
 from .buyer_register_menu import *
 from .seller_register_menu import *
 from .buyer_settings_menu import *

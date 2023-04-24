@@ -41,7 +41,7 @@ async def buyer_choice_city(callback: types.CallbackQuery, state: FSMContext) ->
         msg = await bot.send_message(
             chat_id=user_id,
             text=BUYER_CHOICE_CITY_MESSAGE,
-            reply_markup=await InlineCityPicker().start_citypicker(cities=cities, page=0)
+            reply_markup=await InlineCityPicker().start_city_picker(cities=cities, page=0)
         )
 
         data[LAST_IKB_REDIS_KEY] = msg.message_id

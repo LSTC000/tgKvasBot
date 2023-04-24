@@ -1,7 +1,7 @@
 from database import SellerGeodata
 
 
-async def update_seller_longitude(seller_id: int, longitude: str):
+async def update_seller_longitude(seller_id: int, longitude: float):
     """
     :param seller_id: Телеграм user id.
     :param longitude: Долгота.

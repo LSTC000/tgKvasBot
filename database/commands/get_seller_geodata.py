@@ -8,5 +8,5 @@ async def get_seller_geodata(seller_id: int) -> dict:
     """
 
     seller_geodata_list = await SellerGeodata.query.where(SellerGeodata.seller_id == seller_id).gino.all()
-    seller_geodata_values = [seller_geodata.__dict__ for seller_geodata in seller_geodata_list]
+    seller_geodata_values = [_.__dict__ for _ in seller_geodata_list]
     return seller_geodata_values[0]['__values__']

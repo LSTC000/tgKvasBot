@@ -29,8 +29,8 @@ async def seller_update_geodata(message: types.Message, state: FSMContext) -> No
     user_id = message.from_user.id
 
     # Достаём широту и долготу.
-    latitude = str(message.location.latitude)
-    longitude = str(message.location.longitude)
+    latitude = message.location.latitude
+    longitude = message.location.longitude
 
     # Достаём адрес и URL адрес покупателя.
     seller_address_url = await create_seller_address_url(user_id=user_id, latitude=latitude, longitude=longitude)

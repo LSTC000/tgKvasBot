@@ -19,6 +19,7 @@ from aiogram.dispatcher import FSMContext
 @dp.callback_query_handler(
     lambda c: c.data == CANCEL_TO_MAIN_MENU_DATA,
     state=[
+        MainMenuStatesGroup.find_nearest_seller,
         MainMenuStatesGroup.settings_menu,
         MainMenuStatesGroup.seller_menu,
         SellerRegisterMenuStatesGroup.register_menu

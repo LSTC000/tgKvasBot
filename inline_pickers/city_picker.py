@@ -14,7 +14,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class InlineCityPicker:
-    async def start_citypicker(self, cities: List[str], page: int) -> InlineKeyboardMarkup:
+    async def start_city_picker(self, cities: List[str], page: int) -> InlineKeyboardMarkup:
         """
         :param cities: Список городов.
         :param page: Страница inline клавиатуры. В начале: 0.
@@ -22,7 +22,7 @@ class InlineCityPicker:
         """
 
         inline_kb = InlineKeyboardMarkup(row_width=CITY_PICKER_ROW_WIDTH)
-        ignore_callback = f"IGNORE"
+        ignore_callback = "IGNORE"
 
         count_cities = len(cities)
         start = page * MAX_CITIES_ON_PAGE
@@ -37,12 +37,12 @@ class InlineCityPicker:
         inline_kb.row()
         inline_kb.insert(InlineKeyboardButton(
             text="<<" if page != 0 else " ",
-            callback_data=f"PREV-CITIES" if page != 0 else ignore_callback
+            callback_data="PREV-CITIES" if page != 0 else ignore_callback
         ))
         inline_kb.insert(InlineKeyboardButton(" ", callback_data=ignore_callback))
         inline_kb.insert(InlineKeyboardButton(
             text=">>" if count_cities > stop else " ",
-            callback_data=f"NEXT-CITIES" if count_cities > stop else ignore_callback
+            callback_data="NEXT-CITIES" if count_cities > stop else ignore_callback
         ))
 
         inline_kb.row(InlineKeyboardButton(CANCEL_TO_LAST_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_LAST_MENU_DATA))
@@ -76,11 +76,11 @@ class InlineCityPicker:
             elif callback_data == "PREV-CITIES":
                 page -= 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_reply_markup(await self.start_citypicker(cities=cities, page=page))
+                await callback.message.edit_reply_markup(await self.start_city_picker(cities=cities, page=page))
             elif callback_data == "NEXT-CITIES":
                 page += 1
                 data[IKB_PAGE_REDIS_KEY] = page
-                await callback.message.edit_reply_markup(await self.start_citypicker(cities=cities, page=page))
+                await callback.message.edit_reply_markup(await self.start_city_picker(cities=cities, page=page))
             elif callback_data == CANCEL_TO_LAST_MENU_DATA:
                 return True, None
             else:

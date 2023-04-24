@@ -2,7 +2,7 @@ import datetime
 
 from database.database_setup import BaseModel
 
-from sqlalchemy import Column, BigInteger, VARCHAR, TEXT, DateTime, sql, func
+from sqlalchemy import Column, BigInteger, Float, VARCHAR, TEXT, DateTime, sql, func
 
 
 class SellerGeodata(BaseModel):
@@ -18,9 +18,9 @@ class SellerGeodata(BaseModel):
     # Brand name.
     brand = Column(VARCHAR(32), nullable=False)
     # Latitude coordinate.
-    latitude = Column(VARCHAR(32), nullable=True)
+    latitude = Column(Float, nullable=True)
     # Longitude coordinate.
-    longitude = Column(VARCHAR(32), nullable=True)
+    longitude = Column(Float, nullable=True)
     # Seller address.
     address = Column(TEXT, nullable=True)
     # Url for seller address.

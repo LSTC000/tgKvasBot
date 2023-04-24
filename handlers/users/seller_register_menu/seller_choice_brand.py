@@ -41,7 +41,7 @@ async def seller_choice_brand(callback: types.CallbackQuery, state: FSMContext) 
         msg = await bot.send_message(
             chat_id=user_id,
             text=SELLER_CHOICE_BRAND_MESSAGE,
-            reply_markup=await InlineBrandPicker().start_brandpicker(brands=brands, page=0)
+            reply_markup=await InlineBrandPicker().start_brand_picker(brands=brands, page=0)
         )
 
         data[LAST_IKB_REDIS_KEY] = msg.message_id

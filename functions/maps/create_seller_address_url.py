@@ -7,7 +7,7 @@ from data.config import MAPS_GEOCODER_TOKEN, MAPS_GEOCODER_URL, MAPS_SEARCH_URL
 import httpx
 
 
-async def create_seller_address_url(user_id: str, latitude: str, longitude: str) -> Union[None, Tuple[str, str]]:
+async def create_seller_address_url(user_id: str, latitude: float, longitude: float) -> Union[None, Tuple[str, str]]:
     """
     :param user_id: Телеграм user id пользователя.
     :param latitude: Широта.
