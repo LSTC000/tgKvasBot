@@ -1,7 +1,5 @@
 from loader import dp
 
-from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY, IKB_PAGE_REDIS_KEY, NEAREST_SELLERS_REDIS_KEY
-
 from data.callbacks import CANCEL_TO_MAIN_MENU_DATA
 
 from data.messages import MAIN_MENU_MESSAGE, FIND_NEAREST_SELLER_MESSAGE

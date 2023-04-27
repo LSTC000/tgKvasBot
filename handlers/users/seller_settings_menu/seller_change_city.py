@@ -6,7 +6,7 @@ from data.callbacks import SELLER_CHANGE_CITY_DATA
 
 from data.messages import SELLER_SETTINGS_MENU_MESSAGE, SELLER_CHANGE_CITY_MESSAGE, SELLER_SAVE_CHANGE_CITY_MESSAGE
 
-from functions import get_cities_from_cache, update_seller_brand_from_cache, reload_ikb
+from functions import get_cities_from_cache, update_seller_city_from_cache, reload_ikb
 
 from keyboards import seller_settings_menu_ikb
 
@@ -16,7 +16,7 @@ from inline_pickers import InlineCityPicker
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.exceptions import MessageToDeleteNotFound
+from aiogram.utils.exceptions import MessageToDeleteNotFound, MessageCantBeDeleted
 
 
 @dp.callback_query_handler(lambda c: c.data == SELLER_CHANGE_CITY_DATA, state=SellerMenuStatesGroup.settings_menu)
@@ -27,7 +27,7 @@ async def seller_change_city(callback: types.CallbackQuery, state: FSMContext) -
         if LAST_IKB_REDIS_KEY in data:
             try:
                 await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
-            except MessageToDeleteNotFound:
+            except (MessageToDeleteNotFound, MessageCantBeDeleted):
                 pass
 
         # Достаём список доступных городов и запоминаем в redis страницу.
@@ -65,7 +65,7 @@ async def enter_seller_change_city(callback: types.CallbackQuery, state: FSMCont
 
         if city is not None:
             # Обновляем город продавца в БД и отправляем ему об этом сообщение.
-            await update_seller_brand_from_cache(seller_id=user_id, city=city)
+            await update_seller_city_from_cache(seller_id=user_id, city=city)
             await bot.send_message(chat_id=user_id, text=SELLER_SAVE_CHANGE_CITY_MESSAGE)
 
         # Удаляем страницу из redis.

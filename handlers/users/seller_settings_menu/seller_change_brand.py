@@ -16,7 +16,7 @@ from inline_pickers import InlineBrandPicker
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.exceptions import MessageToDeleteNotFound
+from aiogram.utils.exceptions import MessageToDeleteNotFound, MessageCantBeDeleted
 
 
 @dp.callback_query_handler(lambda c: c.data == SELLER_CHANGE_BRAND_DATA, state=SellerMenuStatesGroup.settings_menu)
@@ -27,7 +27,7 @@ async def seller_change_brand(callback: types.CallbackQuery, state: FSMContext) 
         if LAST_IKB_REDIS_KEY in data:
             try:
                 await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
-            except MessageToDeleteNotFound:
+            except (MessageToDeleteNotFound, MessageCantBeDeleted):
                 pass
 
         # Достаём список доступных брендов и запоминаем в redis страницу.

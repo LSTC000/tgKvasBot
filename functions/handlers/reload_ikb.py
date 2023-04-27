@@ -1,6 +1,6 @@
 from data.redis import LAST_IKB_REDIS_KEY
 
-from functions import keyboards_clear
+from functions.handlers import keyboards_clear
 
 from loader import bot
 

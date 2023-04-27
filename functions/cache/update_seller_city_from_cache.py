@@ -3,7 +3,7 @@ from loader import seller_info_cache
 from database import update_seller_city
 
 
-async def update_seller_brand_from_cache(seller_id: int, city: str):
+async def update_seller_city_from_cache(seller_id: int, city: str):
     """
     :param seller_id: Телеграм user id.
     :param city: Новый выбранный город продавца.

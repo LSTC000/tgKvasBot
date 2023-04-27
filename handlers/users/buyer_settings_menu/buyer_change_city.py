@@ -21,7 +21,7 @@ from inline_pickers import InlineCityPicker
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.exceptions import MessageToDeleteNotFound
+from aiogram.utils.exceptions import MessageToDeleteNotFound, MessageCantBeDeleted
 
 
 @dp.callback_query_handler(lambda c: c.data == BUYER_CHANGE_CITY_DATA, state=MainMenuStatesGroup.settings_menu)
@@ -32,7 +32,7 @@ async def buyer_change_city(callback: types.CallbackQuery, state: FSMContext) ->
         if LAST_IKB_REDIS_KEY in data:
             try:
                 await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
-            except MessageToDeleteNotFound:
+            except (MessageToDeleteNotFound, MessageCantBeDeleted):
                 pass
 
         # Достаём список доступных городов и запоминаем в redis страницу.

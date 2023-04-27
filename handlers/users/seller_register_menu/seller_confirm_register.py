@@ -24,7 +24,7 @@ from states import MainMenuStatesGroup, SellerRegisterMenuStatesGroup
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.exceptions import MessageToDeleteNotFound
+from aiogram.utils.exceptions import MessageToDeleteNotFound, MessageCantBeDeleted
 
 
 @dp.callback_query_handler(
@@ -45,7 +45,7 @@ async def seller_confirm_register(callback: types.CallbackQuery, state: FSMConte
             if LAST_IKB_REDIS_KEY in data:
                 try:
                     await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
-                except MessageToDeleteNotFound:
+                except (MessageToDeleteNotFound, MessageCantBeDeleted):
                     pass
 
         # Отправляем пользователю сообщение о необходимсоти ввести секретный код для успешной регистрации.

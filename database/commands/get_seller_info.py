@@ -13,15 +13,15 @@ async def get_seller_info(seller_id: int) -> Union[dict, None]:
 
     if seller_info_list:
         seller_info_values = [_.__dict__ for _ in seller_info_list]
-        seller_info_values = seller_info_values[0]['__values__'][0]
+        seller_info_values = seller_info_values[0]['__values__']
         return {
-                    'city': seller_info_values[2],
-                    'brand': seller_info_values[3],
-                    'availability': seller_info_values[4],
-                    'working': seller_info_values[5],
-                    'pause': seller_info_values[6],
-                    'latitude': seller_info_values[7],
-                    'longitude': seller_info_values[8]
+                    'city': seller_info_values['city'],
+                    'brand': seller_info_values['brand'],
+                    'availability': seller_info_values['availability'],
+                    'working': seller_info_values['working'],
+                    'pause': seller_info_values['pause'],
+                    'latitude': seller_info_values['latitude'],
+                    'longitude': seller_info_values['longitude']
                 }
 
     return None
