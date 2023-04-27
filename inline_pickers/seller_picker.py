@@ -7,9 +7,11 @@ from data.messages import CANCEL_TO_MAIN_MENU_IKB_MESSAGE
 from data.redis import (
     IKB_PAGE_REDIS_KEY,
     LAST_SEND_LOCATION_IKB_REDIS_KEY,
-    LAST_SELLER_INFO_REDIS_KEY,
+    LAST_SELLER_INFO_MESSAGE_REDIS_KEY,
     NEAREST_SELLERS_REDIS_KEY
 )
+
+from functions import keyboards_clear
 
 from loader import bot
 
@@ -18,7 +20,6 @@ from utils import create_nearest_seller_report
 from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 
 class InlineSellerPicker:
@@ -65,29 +66,24 @@ class InlineSellerPicker:
         :param state: FSMContext.
         """
 
-        async with state.proxy() as data:
-            page = data[IKB_PAGE_REDIS_KEY]
-            nearest_sellers = data[NEAREST_SELLERS_REDIS_KEY]
-
+        if callback_data == "IGNORE":
+            await callback.answer(cache_time=60)
+        else:
             user_id = callback.from_user.id
 
-            if callback_data == "IGNORE":
-                await callback.answer(cache_time=60)
+            await keyboards_clear(user_id, state)
 
-            if callback_data == "PREV-SELLER":
-                page -= 1
-                data[IKB_PAGE_REDIS_KEY] = page
+            async with state.proxy() as data:
+                page = data[IKB_PAGE_REDIS_KEY]
+                nearest_sellers = data[NEAREST_SELLERS_REDIS_KEY]
 
-                if LAST_SELLER_INFO_REDIS_KEY in data:
-                    try:
-                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
-                    except MessageToDeleteNotFound:
-                        pass
-                if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
-                    try:
-                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
-                    except MessageToDeleteNotFound:
-                        pass
+                if callback_data == "PREV-SELLER":
+                    page -= 1
+                    data[IKB_PAGE_REDIS_KEY] = page
+
+                if callback_data == "NEXT-SELLER":
+                    page += 1
+                    data[IKB_PAGE_REDIS_KEY] = page
 
                 msg_info = await bot.send_message(
                     chat_id=user_id,
@@ -103,37 +99,5 @@ class InlineSellerPicker:
                     )
                 )
 
-                data[LAST_SELLER_INFO_REDIS_KEY] = msg_info.message_id
-                data[LAST_SEND_LOCATION_IKB_REDIS_KEY] = msg_location.message_id
-
-            if callback_data == "NEXT-SELLER":
-                page += 1
-                data[IKB_PAGE_REDIS_KEY] = page
-
-                if LAST_SELLER_INFO_REDIS_KEY in data:
-                    try:
-                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SELLER_INFO_REDIS_KEY])
-                    except MessageToDeleteNotFound:
-                        pass
-                if LAST_SEND_LOCATION_IKB_REDIS_KEY in data:
-                    try:
-                        await bot.delete_message(chat_id=user_id, message_id=data[LAST_SEND_LOCATION_IKB_REDIS_KEY])
-                    except MessageToDeleteNotFound:
-                        pass
-
-                msg_info = await bot.send_message(
-                    chat_id=user_id,
-                    text=create_nearest_seller_report(nearest_sellers[page][0])
-                )
-                msg_location = await bot.send_location(
-                    chat_id=user_id,
-                    latitude=nearest_sellers[page][0]['latitude'],
-                    longitude=nearest_sellers[page][0]['longitude'],
-                    reply_markup=await InlineSellerPicker().start_seller_picker(
-                        nearest_sellers=nearest_sellers,
-                        page=page
-                    )
-                )
-
-                data[LAST_SELLER_INFO_REDIS_KEY] = msg_info.message_id
+                data[LAST_SELLER_INFO_MESSAGE_REDIS_KEY] = msg_info.message_id
                 data[LAST_SEND_LOCATION_IKB_REDIS_KEY] = msg_location.message_id

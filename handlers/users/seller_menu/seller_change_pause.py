@@ -4,11 +4,9 @@ from data.redis import LAST_IKB_REDIS_KEY
 
 from data.callbacks import START_PAUSE_DATA, STOP_PAUSE_DATA
 
-from database import update_seller_pause
-
 from keyboards import seller_menu_ikb
 
-from functions import get_seller_menu_ikb_params
+from functions import get_seller_menu_ikb_params, update_seller_pause_from_cache
 
 from states import MainMenuStatesGroup
 
@@ -25,10 +23,10 @@ async def seller_change_pause(callback: types.CallbackQuery, state: FSMContext) 
 
     if callback.data == START_PAUSE_DATA:
         # Запоминаем, что продавец ушёл на перерыв.
-        await update_seller_pause(seller_id=user_id, pause=1)
+        await update_seller_pause_from_cache(seller_id=user_id, pause=1)
     else:
         # Запоминаем, что продавец вышел с перерыва.
-        await update_seller_pause(seller_id=user_id, pause=0)
+        await update_seller_pause_from_cache(seller_id=user_id, pause=0)
 
     async with state.proxy() as data:
         # Обновляем меню продавца.

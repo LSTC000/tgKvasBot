@@ -12,7 +12,7 @@ from data.messages import (
     BUYER_UNSUCCESSFULLY_REGISTER_MESSAGE
 )
 
-from database import add_alert, add_buyer
+from database import add_alert, add_buyer_info
 
 from functions import reload_ikb, reload_rkb
 
@@ -39,7 +39,7 @@ async def buyer_confirm_register(callback: types.CallbackQuery, state: FSMContex
     # Проверяем выбрал пользователь город или нет. От этого будет зависить разрешение на регистрацию покупателю.
     if city is not None:
         # Добавляем в БД данные о покупателе и в список тех, кто будет получать уведомления.
-        await add_buyer(buyer_id=user_id, city=city, brand=brand)
+        await add_buyer_info(buyer_id=user_id, city=city, brand=brand)
         await add_alert(user_id=user_id)
 
         # Сообщаем покупателю о успешной регистрации.

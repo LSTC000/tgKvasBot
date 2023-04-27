@@ -5,12 +5,12 @@ from database.database_setup import BaseModel
 from sqlalchemy import Column, VARCHAR, BigInteger, DateTime, sql, func
 
 
-class Buyer(BaseModel):
-    __tablename__ = 'buyer'
+class BuyerInfo(BaseModel):
+    __tablename__ = 'buyer_info'
 
     # Auto increment id.
     id = Column(BigInteger, primary_key=True, autoincrement=True,
-                server_default=sql.text('nextval(\'buyer_id_seq\')'))
+                server_default=sql.text('nextval(\'buyer_info_id_seq\')'))
     # Telegram user id.
     buyer_id = Column(BigInteger, nullable=False)
     # City name.

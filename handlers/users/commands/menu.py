@@ -1,4 +1,4 @@
-from loader import dp, buyer_cache
+from loader import dp, buyer_info_cache
 
 from data.callbacks import START_COMMAND_DATA
 
@@ -8,7 +8,7 @@ from data.redis import CITY_REGISTER_REDIS_KEY, BRAND_REGISTER_REDIS_KEY, IKB_PA
 
 from keyboards import main_menu_ikb, buyer_register_menu_ikb, buyer_find_nearest_seller_menu_rkb
 
-from functions import is_buyer, reload_ikb, reload_rkb
+from functions import is_buyer, reload_ikb, reload_rkb, redis_clear
 
 from states import MainMenuStatesGroup, BuyerRegisterMenuStatesGroup
 
@@ -20,47 +20,9 @@ from aiogram.dispatcher.storage import FSMContext
 async def menu_command(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
 
-    if user_id in buyer_cache:
+    if user_id in buyer_info_cache or await is_buyer(user_id):
         # Удаляем лишние данные из redis, если они есть.
-        async with state.proxy() as data:
-            if CITY_REGISTER_REDIS_KEY in data:
-                data.pop(CITY_REGISTER_REDIS_KEY)
-
-            if BRAND_REGISTER_REDIS_KEY in data:
-                data.pop(BRAND_REGISTER_REDIS_KEY)
-
-            if IKB_PAGE_REDIS_KEY in data:
-                data.pop(IKB_PAGE_REDIS_KEY)
-
-            if NEAREST_SELLERS_REDIS_KEY in data:
-                data.pop(NEAREST_SELLERS_REDIS_KEY)
-
-        # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
-        await reload_rkb(
-            user_id=user_id,
-            text=FIND_NEAREST_SELLER_MESSAGE,
-            new_rkb=buyer_find_nearest_seller_menu_rkb,
-            state=state
-        )
-
-        await MainMenuStatesGroup.main_menu.set()
-    elif await is_buyer(user_id):
-        buyer_cache[user_id] = None
-
-        # Удаляем лишние данные из redis, если они есть.
-        async with state.proxy() as data:
-            if CITY_REGISTER_REDIS_KEY in data:
-                data.pop(CITY_REGISTER_REDIS_KEY)
-
-            if BRAND_REGISTER_REDIS_KEY in data:
-                data.pop(BRAND_REGISTER_REDIS_KEY)
-
-            if IKB_PAGE_REDIS_KEY in data:
-                data.pop(IKB_PAGE_REDIS_KEY)
-
-            if NEAREST_SELLERS_REDIS_KEY in data:
-                data.pop(NEAREST_SELLERS_REDIS_KEY)
+        await redis_clear(state)
 
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
@@ -79,7 +41,12 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
             data[BRAND_REGISTER_REDIS_KEY] = None
 
         # Вызываем меню регистрации покупателя.
-        await reload_ikb(user_id=user_id, text=BUYER_REGISTER_MENU_MESSAGE, new_ikb=buyer_register_menu_ikb, state=state)
+        await reload_ikb(
+            user_id=user_id,
+            text=BUYER_REGISTER_MENU_MESSAGE,
+            new_ikb=buyer_register_menu_ikb,
+            state=state
+        )
 
         await BuyerRegisterMenuStatesGroup.register_menu.set()
 
@@ -88,20 +55,10 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
 async def callback_menu_command(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
 
-    if user_id in buyer_cache:
-        # Вызываем главное меню.
-        await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
-        await reload_rkb(
-            user_id=user_id,
-            text=FIND_NEAREST_SELLER_MESSAGE,
-            new_rkb=buyer_find_nearest_seller_menu_rkb,
-            state=state
-        )
-
-        await MainMenuStatesGroup.main_menu.set()
-    elif await is_buyer(user_id):
-        buyer_cache[user_id] = None
-
+    if user_id in buyer_info_cache or await is_buyer(user_id):
+        # Удаляем лишние данные из redis, если они есть.
+        await redis_clear(state)
+        
         # Вызываем главное меню.
         await reload_ikb(user_id=user_id, text=MAIN_MENU_MESSAGE, new_ikb=main_menu_ikb, state=state)
         await reload_rkb(

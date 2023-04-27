@@ -1,5 +1,4 @@
 import logging
-from sys import maxsize
 
 from data.config import (
     BOT_TOKEN,
@@ -8,9 +7,9 @@ from data.config import (
     REDIS_HOST,
     REDIS_PORT,
     REDIS_DB,
-    BUYER_MAXSIZE,
+    BUYER_INFO_MAXSIZE,
     BUYER_TTL,
-    SELLER_MAXSIZE,
+    SELLER_INFO_MAXSIZE,
     SELLER_TTL,
     CITIES_MAXSIZE,
     CITIES_TTL,
@@ -31,8 +30,8 @@ __all__ = [
     'dp',
     'db',
     'logger',
-    'buyer_cache',
-    'seller_cache',
+    'buyer_info_cache',
+    'seller_info_cache',
     'cities_cache',
     'brands_cache'
 ]
@@ -44,8 +43,8 @@ dp = Dispatcher(bot=bot, storage=storage)
 
 db = Gino()
 
-buyer_cache = TTLCache(maxsize=BUYER_MAXSIZE, ttl=BUYER_TTL)
-seller_cache = TTLCache(maxsize=SELLER_MAXSIZE, ttl=SELLER_TTL)
+buyer_info_cache = TTLCache(maxsize=BUYER_INFO_MAXSIZE, ttl=BUYER_TTL)
+seller_info_cache = TTLCache(maxsize=SELLER_INFO_MAXSIZE, ttl=SELLER_TTL)
 cities_cache = TTLCache(maxsize=CITIES_MAXSIZE, ttl=CITIES_TTL)
 brands_cache = TTLCache(maxsize=BRANDS_MAXSIZE, ttl=BRANDS_TTL)
 

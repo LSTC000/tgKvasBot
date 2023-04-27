@@ -4,9 +4,7 @@ from data.callbacks import BUYER_RESET_BRAND_DATA
 
 from data.messages import BUYER_SETTINGS_MENU_MESSAGE, BUYER_SAVE_RESET_BRAND_MESSAGE
 
-from database import update_buyer_brand
-
-from functions import reload_ikb, get_buyer_settings_menu_ikb_params
+from functions import update_buyer_brand_from_cache, reload_ikb, get_buyer_settings_menu_ikb_params
 
 from keyboards import buyer_settings_menu_ikb
 
@@ -21,7 +19,7 @@ async def buyer_reset_brand(callback: types.CallbackQuery, state: FSMContext) ->
     user_id = callback.from_user.id
 
     # Сбрасываем бренд покупателя и отправляем ему об этом сообщение.
-    await update_buyer_brand(buyer_id=user_id, brand=None)
+    await update_buyer_brand_from_cache(buyer_id=user_id, brand=None)
     await bot.send_message(chat_id=user_id, text=BUYER_SAVE_RESET_BRAND_MESSAGE)
 
     # Вызываем меню настроек покупателя.

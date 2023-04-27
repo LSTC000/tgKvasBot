@@ -1,10 +1,10 @@
-from database import SellerGeodata
+from database import SellerInfo
 
 
-async def update_seller_latitude(seller_id: int, latitude: float):
+async def update_seller_latitude(seller_id: int, latitude: float) -> None:
     """
     :param seller_id: Телеграм user id.
     :param latitude: Широта.
     """
 
-    await SellerGeodata.update.values(latitude=latitude).where(SellerGeodata.seller_id == seller_id).gino.scalar()
+    await SellerInfo.update.values(latitude=latitude).where(SellerInfo.seller_id == seller_id).gino.scalar()

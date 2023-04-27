@@ -1,11 +1,9 @@
-from typing import List, Tuple
-
 from database import Cities
 
 from sqlalchemy import select, func
 
 
-async def get_cities() -> List[Tuple[str]]:
+async def get_cities() -> list:
     """
     :return: Список с доступными городами.
     """

@@ -2,7 +2,7 @@ from data.callbacks import ON_ALERT_DATA, OFF_ALERT_DATA
 
 from data.messages import ON_ALERT_IKB_MESSAGE, OFF_ALERT_IKB_MESSAGE
 
-from database import get_alerts
+from database import get_alert
 
 
 async def get_buyer_settings_menu_ikb_params(buyer_id: int) -> dict:
@@ -11,15 +11,9 @@ async def get_buyer_settings_menu_ikb_params(buyer_id: int) -> dict:
     :return: Словарь с параметрами для клавиатуры меню настроек покупателя.
     '''
 
-    alert = False
-    alerts = await get_alerts()
-
-    for user in alerts:
-        if buyer_id == user[0]:
-            alert = True
-            break
+    alert = await get_alert(buyer_id)
 
     return {
-        'alert_ikb_message': OFF_ALERT_IKB_MESSAGE if alert else ON_ALERT_IKB_MESSAGE,
+        'alert_message': OFF_ALERT_IKB_MESSAGE if alert else ON_ALERT_IKB_MESSAGE,
         'alert_data': OFF_ALERT_DATA if alert else ON_ALERT_DATA
     }

@@ -1,7 +1,7 @@
 LAST_IKB_REDIS_KEY = 'last_ikb'
 LAST_RKB_REDIS_KEY = 'last_rkb'
 LAST_SEND_LOCATION_IKB_REDIS_KEY = 'last_send_location_ikb'
-LAST_SELLER_INFO_REDIS_KEY = 'last_seller_info'
+LAST_SELLER_INFO_MESSAGE_REDIS_KEY = 'last_seller_info'
 NEAREST_SELLERS_REDIS_KEY = 'nearest_sellers'
 IKB_PAGE_REDIS_KEY = 'ikb_page'
 CITY_REGISTER_REDIS_KEY = 'city_register'

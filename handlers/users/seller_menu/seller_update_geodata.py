@@ -6,14 +6,15 @@ from data.messages import (
     SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE
 )
 
-from database import (
-    update_seller_latitude,
-    update_seller_longitude
-)
-
 from keyboards import seller_menu_ikb, seller_update_geodata_menu_rkb
 
-from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params
+from functions import (
+    reload_ikb,
+    reload_rkb,
+    get_seller_menu_ikb_params,
+    update_seller_latitude_from_cache,
+    update_seller_longitude_from_cache
+)
 
 from states import MainMenuStatesGroup
 
@@ -30,8 +31,8 @@ async def seller_update_geodata(message: types.Message, state: FSMContext) -> No
     longitude = message.location.longitude
 
     # Добавляем в БД координаты продавца.
-    await update_seller_latitude(user_id, latitude)
-    await update_seller_longitude(user_id, longitude)
+    await update_seller_latitude_from_cache(user_id, latitude)
+    await update_seller_longitude_from_cache(user_id, longitude)
 
     await bot.send_message(chat_id=user_id, text=SUCCESSFULLY_SELLER_UPDATE_GEODATA_MESSAGE)
 

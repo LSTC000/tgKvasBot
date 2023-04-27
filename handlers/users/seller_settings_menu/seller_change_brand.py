@@ -6,9 +6,7 @@ from data.callbacks import SELLER_CHANGE_BRAND_DATA
 
 from data.messages import SELLER_SETTINGS_MENU_MESSAGE, SELLER_CHANGE_BRAND_MESSAGE, SELLER_SAVE_CHANGE_BRAND_MESSAGE
 
-from database import update_seller_brand
-
-from functions import get_brands_from_cache, reload_ikb
+from functions import get_brands_from_cache, update_seller_brand_from_cache, reload_ikb
 
 from keyboards import seller_settings_menu_ikb
 
@@ -67,7 +65,7 @@ async def enter_seller_change_brand(callback: types.CallbackQuery, state: FSMCon
 
         if brand is not None:
             # Обновляем бренд продавца в БД и отправляем ему об этом сообщение.
-            await update_seller_brand(seller_id=user_id, brand=brand)
+            await update_seller_brand_from_cache(seller_id=user_id, brand=brand)
             await bot.send_message(chat_id=user_id, text=SELLER_SAVE_CHANGE_BRAND_MESSAGE)
 
         # Удаляем страницу из redis.

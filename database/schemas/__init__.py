@@ -1,18 +1,8 @@
-__all__ = [
-    'Seller',
-    'SellerInfo',
-    'SellerGeodata',
-    'Buyer',
-    'Cities',
-    'Brands',
-    'Alerts'
-]
+__all__ = ['SellerInfo', 'BuyerInfo', 'Cities', 'Brands', 'Alerts']
 
 
-from .seller import Seller
 from .seller_info import SellerInfo
-from .seller_geodata import SellerGeodata
-from .buyer import Buyer
+from .buyer_info import BuyerInfo
 from .cities import Cities
 from .brands import Brands
 from .alerts import Alerts

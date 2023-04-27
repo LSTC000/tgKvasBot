@@ -1,5 +1,3 @@
-from typing import List
-
 from loader import cities_cache
 
 from data.cache import CITIES_CACHE_KEY
@@ -7,7 +5,7 @@ from data.cache import CITIES_CACHE_KEY
 from database import get_cities
 
 
-async def get_cities_from_cache() -> List[str]:
+async def get_cities_from_cache() -> list:
     """
     :return: Список доступных для выбора городов.
     """

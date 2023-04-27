@@ -17,9 +17,9 @@ from data.messages import (
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def buyer_settings_menu_ikb(alert_ikb_message: str, alert_data: str) -> InlineKeyboardMarkup:
+def buyer_settings_menu_ikb(alert_message: str, alert_data: str) -> InlineKeyboardMarkup:
     """
-    :param alert_ikb_message: ON_ALERT_IKB_MESSAGE или OFF_ALERT_IKB_MESSAGE в
+    :param alert_message: ON_ALERT_IKB_MESSAGE или OFF_ALERT_IKB_MESSAGE в
         data/messages/keyboards/keyboards_messages.
     :param alert_data: ON_ALERT_DATA или OFF_ALERT_DATA в data/callbacks/callbacks_data.
     :return: Клавиатура настроек покупателей.
@@ -31,7 +31,7 @@ def buyer_settings_menu_ikb(alert_ikb_message: str, alert_data: str) -> InlineKe
         InlineKeyboardButton(text=BUYER_CHANGE_CITY_IKB_MESSAGE, callback_data=BUYER_CHANGE_CITY_DATA),
         InlineKeyboardButton(text=BUYER_CHANGE_BRAND_IKB_MESSAGE, callback_data=BUYER_CHANGE_BRAND_DATA)
     )
-    ikb.row(InlineKeyboardButton(text=alert_ikb_message, callback_data=alert_data))
+    ikb.row(InlineKeyboardButton(text=alert_message, callback_data=alert_data))
     ikb.row(InlineKeyboardButton(text=BUYER_RESET_BRAND_IKB_MESSAGE, callback_data=BUYER_RESET_BRAND_DATA))
     ikb.row(InlineKeyboardButton(text=CANCEL_TO_MAIN_MENU_IKB_MESSAGE, callback_data=CANCEL_TO_MAIN_MENU_DATA))
 

@@ -8,16 +8,14 @@ from data.messages import (
 )
 
 from data.redis import (
-    LAST_IKB_REDIS_KEY,
-    LAST_RKB_REDIS_KEY,
     LAST_SEND_LOCATION_IKB_REDIS_KEY,
-    LAST_SELLER_INFO_REDIS_KEY,
+    LAST_SELLER_INFO_MESSAGE_REDIS_KEY,
     IKB_PAGE_REDIS_KEY
 )
 
 from keyboards import main_menu_ikb, buyer_find_nearest_seller_menu_rkb
 
-from functions import reload_ikb, reload_rkb, get_nearest_sellers
+from functions import reload_ikb, reload_rkb, get_nearest_sellers, keyboards_clear
 
 from inline_pickers import InlineSellerPicker
 
@@ -27,7 +25,6 @@ from utils import create_nearest_seller_report
 
 from aiogram import types
 from aiogram.dispatcher.storage import FSMContext
-from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 
 @dp.message_handler(content_types=types.ContentTypes.LOCATION, state=MainMenuStatesGroup.main_menu)
@@ -40,24 +37,15 @@ async def find_nearest_seller(message: types.Message, state: FSMContext) -> None
     latitude = message.location.latitude
     longitude = message.location.longitude
 
-    # Достаём список доступных продавцов и запоминаем в redis страницу.
+    # Достаём список доступных продавцов.
     nearest_sellers = await get_nearest_sellers(user_id, latitude, longitude, state)
 
     # Если существуют доступные продавцы.
     if nearest_sellers is not None:
-        # Удаляем старую ikb и rkb клавиатуры.
-        async with state.proxy() as data:
-            if LAST_IKB_REDIS_KEY in data:
-                try:
-                    await bot.delete_message(chat_id=user_id, message_id=data[LAST_IKB_REDIS_KEY])
-                except MessageToDeleteNotFound:
-                    pass
-            if LAST_RKB_REDIS_KEY in data:
-                try:
-                    await bot.delete_message(chat_id=user_id, message_id=data[LAST_RKB_REDIS_KEY])
-                except MessageToDeleteNotFound:
-                    pass
+        # Удаляем старые клавиатуры.
+        await keyboards_clear(user_id, state)
 
+        async with state.proxy() as data:
             data[IKB_PAGE_REDIS_KEY] = 0
 
             # Вызываем меню выбора продавца.
@@ -69,7 +57,7 @@ async def find_nearest_seller(message: types.Message, state: FSMContext) -> None
                 reply_markup=await InlineSellerPicker().start_seller_picker(nearest_sellers=nearest_sellers, page=0)
             )
 
-            data[LAST_SELLER_INFO_REDIS_KEY] = msg_info.message_id
+            data[LAST_SELLER_INFO_MESSAGE_REDIS_KEY] = msg_info.message_id
             data[LAST_SEND_LOCATION_IKB_REDIS_KEY] = msg_location.message_id
 
             await MainMenuStatesGroup.find_nearest_seller.set()

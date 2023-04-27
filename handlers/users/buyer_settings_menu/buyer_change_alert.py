@@ -26,12 +26,12 @@ async def buyer_change_alert(callback: types.CallbackQuery, state: FSMContext) -
     if callback.data == ON_ALERT_DATA:
         # Добавляем пользователя в список тех, кто получает уведомления.
         await add_alert(user_id=user_id)
-        alert_ikb_message = OFF_ALERT_IKB_MESSAGE
+        alert_message = OFF_ALERT_IKB_MESSAGE
         alert_data = OFF_ALERT_DATA
     else:
         # Удаляем пользователя из списка тех, кто получает уведомления.
         await delete_alert(user_id=user_id)
-        alert_ikb_message = ON_ALERT_IKB_MESSAGE
+        alert_message = ON_ALERT_IKB_MESSAGE
         alert_data = ON_ALERT_DATA
 
     async with state.proxy() as data:
@@ -39,7 +39,7 @@ async def buyer_change_alert(callback: types.CallbackQuery, state: FSMContext) -
         await bot.edit_message_reply_markup(
             chat_id=user_id,
             message_id=data[LAST_IKB_REDIS_KEY],
-            reply_markup=buyer_settings_menu_ikb(alert_ikb_message=alert_ikb_message, alert_data=alert_data)
+            reply_markup=buyer_settings_menu_ikb(alert_message=alert_message, alert_data=alert_data)
         )
 
     await MainMenuStatesGroup.settings_menu.set()

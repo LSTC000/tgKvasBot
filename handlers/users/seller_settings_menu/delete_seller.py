@@ -10,7 +10,7 @@ from data.messages import (
     SUCCESSFULLY_DELETE_SELLER_MESSAGE
 )
 
-from functions import reload_ikb, reload_rkb, full_delete_seller
+from functions import reload_ikb, reload_rkb, delete_seller_info_from_cache
 
 from keyboards import (
     confirm_delete_seller_menu_ikb,
@@ -44,7 +44,7 @@ async def confirm_delete_seller(callback: types.CallbackQuery, state: FSMContext
 
     # Если продавец подтвердил удаление его аккаунта, то удаляем его и отправляем об этом сообщение.
     if callback.data == CONFIRM_DELETE_SELLER_DATA:
-        await full_delete_seller(user_id)
+        await delete_seller_info_from_cache(user_id)
 
         await bot.send_message(chat_id=user_id, text=SUCCESSFULLY_DELETE_SELLER_MESSAGE)
 

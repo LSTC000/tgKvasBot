@@ -2,7 +2,7 @@ import datetime
 
 from database.database_setup import BaseModel
 
-from sqlalchemy import Column, BigInteger, SmallInteger, DateTime, sql, func
+from sqlalchemy import Column, BigInteger, VARCHAR, Float, SmallInteger, DateTime, sql, func
 
 
 class SellerInfo(BaseModel):
@@ -13,12 +13,22 @@ class SellerInfo(BaseModel):
                 server_default=sql.text('nextval(\'seller_info_id_seq\')'))
     # Telegram user id.
     seller_id = Column(BigInteger, nullable=False)
+    # City name.
+    city = Column(VARCHAR(32), nullable=False)
+    # Brand name.
+    brand = Column(VARCHAR(32), nullable=False)
     # Availability: 0 or 1.
     availability = Column(SmallInteger, nullable=False)
     # Working: 0 or 1.
     working = Column(SmallInteger, nullable=False)
     # Pause: 0 or 1.
     pause = Column(SmallInteger, nullable=False)
+    # Latitude coordinate.
+    latitude = Column(Float, nullable=True)
+    # Longitude coordinate.
+    longitude = Column(Float, nullable=True)
+    # Created date.
+    created_date = Column(DateTime(True), server_default=func.now())
     # Update date.
     updated_date = Column(
         DateTime(True),

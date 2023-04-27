@@ -1,11 +1,9 @@
-from typing import List, Tuple
-
 from database import Brands
 
 from sqlalchemy import select, func
 
 
-async def get_brands() -> List[Tuple[str]]:
+async def get_brands() -> list:
     """
     :return: Список с доступных брендов.
     """

@@ -14,7 +14,7 @@ from data.messages import (
     SELLER_UNSUCCESSFULLY_ENTER_REGISTER_CODE_MESSAGE
 )
 
-from database import add_seller, add_seller_info, add_seller_geodata
+from database import add_seller_info
 
 from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params
 
@@ -78,9 +78,7 @@ async def enter_seller_register_code(message: types.Message, state: FSMContext) 
 
     if message.text == '12345':
         # Добавляем в БД данные о продавце.
-        await add_seller(seller_id=user_id)
-        await add_seller_info(seller_id=user_id)
-        await add_seller_geodata(seller_id=user_id, city=city, brand=brand)
+        await add_seller_info(seller_id=user_id, city=city, brand=brand)
 
         # Удаляем из redis выбранные пользователем город и бренд.
         async with state.proxy() as data:

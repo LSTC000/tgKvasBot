@@ -6,9 +6,7 @@ from data.callbacks import SELLER_CHANGE_CITY_DATA
 
 from data.messages import SELLER_SETTINGS_MENU_MESSAGE, SELLER_CHANGE_CITY_MESSAGE, SELLER_SAVE_CHANGE_CITY_MESSAGE
 
-from database import update_seller_city
-
-from functions import get_cities_from_cache, reload_ikb
+from functions import get_cities_from_cache, update_seller_brand_from_cache, reload_ikb
 
 from keyboards import seller_settings_menu_ikb
 
@@ -67,7 +65,7 @@ async def enter_seller_change_city(callback: types.CallbackQuery, state: FSMCont
 
         if city is not None:
             # Обновляем город продавца в БД и отправляем ему об этом сообщение.
-            await update_seller_city(seller_id=user_id, city=city)
+            await update_seller_brand_from_cache(seller_id=user_id, city=city)
             await bot.send_message(chat_id=user_id, text=SELLER_SAVE_CHANGE_CITY_MESSAGE)
 
         # Удаляем страницу из redis.

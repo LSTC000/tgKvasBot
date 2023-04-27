@@ -4,7 +4,7 @@ from data.callbacks import SHOW_GEODATA_DATA
 
 from data.messages import SELLER_MENU_MESSAGE, SELLER_UPDATE_GEODATA_MESSAGE, NONE_SELLER_GEODATA_MESSAGE
 
-from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params, get_seller_geodata_dict
+from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params, get_seller_geodata
 
 from keyboards import seller_menu_ikb, seller_update_geodata_menu_rkb
 
@@ -20,7 +20,7 @@ from aiogram.dispatcher import FSMContext
 async def seller_show_geodata(callback: types.CallbackQuery, state: FSMContext) -> None:
     user_id = callback.from_user.id
 
-    seller_geodata_dict = await get_seller_geodata_dict(user_id)
+    seller_geodata_dict = await get_seller_geodata(user_id)
 
     # Отправляем пользователю информацию о геоданных, если они есть.
     if seller_geodata_dict is not None:

@@ -16,7 +16,7 @@ from data.messages import (
     STOP_PAUSE_IKB_MESSAGE
 )
 
-from database import get_seller_info
+from functions import get_seller_info_from_cache
 
 
 async def get_seller_menu_ikb_params(seller_id: int) -> dict:
@@ -25,7 +25,7 @@ async def get_seller_menu_ikb_params(seller_id: int) -> dict:
     :return: Словарь с параметрами для клавиатуры меню продавца.
     '''
 
-    seller_info = await get_seller_info(seller_id)
+    seller_info = await get_seller_info_from_cache(seller_id)
 
     return {
         'availability_message': UNAVAILABILITY_IKB_MESSAGE if seller_info['availability'] else AVAILABILITY_IKB_MESSAGE,

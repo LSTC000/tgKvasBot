@@ -1,7 +1,7 @@
 __all__ = [
-    'BUYER_MAXSIZE',
+    'BUYER_INFO_MAXSIZE',
     'BUYER_TTL',
-    'SELLER_MAXSIZE',
+    'SELLER_INFO_MAXSIZE',
     'SELLER_TTL',
     'CITIES_MAXSIZE',
     'CITIES_TTL',
@@ -11,9 +11,9 @@ __all__ = [
 
 
 from .cache_config import (
-    BUYER_MAXSIZE,
+    BUYER_INFO_MAXSIZE,
     BUYER_TTL,
-    SELLER_MAXSIZE,
+    SELLER_INFO_MAXSIZE,
     SELLER_TTL,
     CITIES_MAXSIZE,
     CITIES_TTL,

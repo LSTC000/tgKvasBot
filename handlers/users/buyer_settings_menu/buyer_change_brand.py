@@ -6,9 +6,12 @@ from data.callbacks import BUYER_CHANGE_BRAND_DATA
 
 from data.messages import BUYER_SETTINGS_MENU_MESSAGE, BUYER_CHANGE_BRAND_MESSAGE, BUYER_SAVE_CHANGE_BRAND_MESSAGE
 
-from database import update_buyer_brand
-
-from functions import get_brands_from_cache, reload_ikb, get_buyer_settings_menu_ikb_params
+from functions import (
+    get_brands_from_cache,
+    update_buyer_brand_from_cache,
+    reload_ikb,
+    get_buyer_settings_menu_ikb_params
+)
 
 from keyboards import buyer_settings_menu_ikb
 
@@ -67,7 +70,7 @@ async def enter_buyer_change_brand(callback: types.CallbackQuery, state: FSMCont
 
         if brand is not None:
             # Обновляем бренд покупателя в БД и отправляем ему об этом сообщение.
-            await update_buyer_brand(buyer_id=user_id, brand=brand)
+            await update_buyer_brand_from_cache(buyer_id=user_id, brand=brand)
             await bot.send_message(chat_id=user_id, text=BUYER_SAVE_CHANGE_BRAND_MESSAGE)
 
         # Удаляем страницу из redis.
