@@ -1,7 +1,7 @@
 from database import SellerInfo
 
 
-async def delete_seller_info(seller_id: int):
+async def delete_seller_info(seller_id: int) -> None:
     """
     :param seller_id: Телеграм user id.
     """

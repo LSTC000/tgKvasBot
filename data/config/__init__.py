@@ -1,5 +1,5 @@
 from .bot import *
-from .requests import *
+from .admins import *
 from .redis import *
 from .database import *
 from .keyboards import *

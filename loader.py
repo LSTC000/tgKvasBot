@@ -7,6 +7,8 @@ from data.config import (
     REDIS_HOST,
     REDIS_PORT,
     REDIS_DB,
+    SECRET_KEYS_MAXSIZE,
+    SECRET_KEYS_TTL,
     BUYER_INFO_MAXSIZE,
     BUYER_TTL,
     SELLER_INFO_MAXSIZE,
@@ -30,6 +32,7 @@ __all__ = [
     'dp',
     'db',
     'logger',
+    'secret_keys_cache',
     'buyer_info_cache',
     'seller_info_cache',
     'cities_cache',
@@ -43,6 +46,7 @@ dp = Dispatcher(bot=bot, storage=storage)
 
 db = Gino()
 
+secret_keys_cache = TTLCache(maxsize=SECRET_KEYS_MAXSIZE, ttl=SECRET_KEYS_TTL)
 buyer_info_cache = TTLCache(maxsize=BUYER_INFO_MAXSIZE, ttl=BUYER_TTL)
 seller_info_cache = TTLCache(maxsize=SELLER_INFO_MAXSIZE, ttl=SELLER_TTL)
 cities_cache = TTLCache(maxsize=CITIES_MAXSIZE, ttl=CITIES_TTL)

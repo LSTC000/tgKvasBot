@@ -1,4 +1,6 @@
 __all__ = [
+    'SECRET_KEYS_MAXSIZE',
+    'SECRET_KEYS_TTL',
     'BUYER_INFO_MAXSIZE',
     'BUYER_TTL',
     'SELLER_INFO_MAXSIZE',
@@ -11,6 +13,8 @@ __all__ = [
 
 
 from .cache_config import (
+    SECRET_KEYS_MAXSIZE,
+    SECRET_KEYS_TTL,
     BUYER_INFO_MAXSIZE,
     BUYER_TTL,
     SELLER_INFO_MAXSIZE,

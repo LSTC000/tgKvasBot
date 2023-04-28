@@ -4,6 +4,8 @@ from data.redis import LAST_IKB_REDIS_KEY, CITY_REGISTER_REDIS_KEY, BRAND_REGIST
 
 from data.callbacks import CONFIRM_SELLER_REGISTER_DATA
 
+from data.config import ADMINS_SECRET_KEY
+
 from data.messages import (
     SELLER_MENU_MESSAGE,
     SELLER_UPDATE_GEODATA_MESSAGE,
@@ -16,7 +18,13 @@ from data.messages import (
 
 from database import add_seller_info
 
-from functions import reload_ikb, reload_rkb, get_seller_menu_ikb_params
+from functions import (
+    reload_ikb,
+    reload_rkb,
+    get_seller_menu_ikb_params,
+    get_secret_keys_from_cache,
+    update_secret_key_from_cache
+)
 
 from keyboards import seller_menu_ikb, seller_register_menu_ikb, seller_update_geodata_menu_rkb
 
@@ -70,15 +78,19 @@ async def seller_confirm_register(callback: types.CallbackQuery, state: FSMConte
 @dp.message_handler(content_types=types.ContentTypes.TEXT, state=SellerRegisterMenuStatesGroup.register_code)
 async def enter_seller_register_code(message: types.Message, state: FSMContext) -> None:
     user_id = message.from_user.id
+    secret_key = message.text
 
     # Достаём из redis выбранные пользователем город и бренд.
     async with state.proxy() as data:
         city = data[CITY_REGISTER_REDIS_KEY]
         brand = data[BRAND_REGISTER_REDIS_KEY]
 
-    if message.text == '12345':
+    if secret_key == ADMINS_SECRET_KEY or secret_key in await get_secret_keys_from_cache():
         # Добавляем в БД данные о продавце.
         await add_seller_info(seller_id=user_id, city=city, brand=brand)
+
+        # Связываем в БД пользователя и секретный ключ.
+        await update_secret_key_from_cache(secret_key, user_id)
 
         # Удаляем из redis выбранные пользователем город и бренд.
         async with state.proxy() as data:
