@@ -13,6 +13,6 @@ async def get_secret_keys() -> list:
     secret_keys_list = []
 
     for secret_key in secret_keys_values:
-        secret_keys_list.append(secret_key['secret_key'])
+        secret_keys_list.append(secret_key['__values__']['secret_key'])
 
     return secret_keys_list

@@ -2,7 +2,7 @@ import string
 import secrets
 
 
-def create_secret_key() -> str:
+def generate_secret_key() -> str:
     '''
     :return: Секретный ключ.
     '''

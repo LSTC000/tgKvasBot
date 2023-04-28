@@ -15,6 +15,6 @@ async def update_secret_key_from_cache(secret_key: str, user_id: int) -> None:
 
     if SECRET_KEYS_CACHE_KEY in secret_keys_cache:
         try:
-            secret_keys_cache[SECRET_KEYS_CACHE_KEY].pop(secret_key)
+            secret_keys_cache[SECRET_KEYS_CACHE_KEY].remove(secret_key)
         except KeyError:
             pass

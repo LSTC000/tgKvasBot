@@ -52,8 +52,8 @@ async def menu_command(message: types.Message, state: FSMContext) -> None:
 
 
 @dp.callback_query_handler(lambda c: c.data == START_COMMAND_DATA, state='*')
-async def callback_menu_command(message: types.Message, state: FSMContext) -> None:
-    user_id = message.from_user.id
+async def callback_menu_command(callback: types.CallbackQuery, state: FSMContext) -> None:
+    user_id = callback.from_user.id
 
     if user_id in buyer_info_cache or await is_buyer(user_id):
         # Удаляем лишние данные из redis, если они есть.

@@ -9,6 +9,8 @@ from data.messages import ALERT_STARTUP_MESSAGE, ALERT_SHUTDOWN_MESSAGE
 from handlers import (
     register_users_cancels_menu,
     register_users_commands,
+    register_admins_commands,
+    register_admin_menu,
     set_default_commands,
     register_buyer_register_menu,
     register_seller_register_menu,
@@ -20,7 +22,7 @@ from handlers import (
 
 from database import startup_setup, shutdown_setup, get_alerts
 
-from aiogram import Bot, Dispatcher
+from aiogram import Dispatcher
 from aiogram.utils import executor
 from aiogram.utils.exceptions import BotBlocked
 
@@ -28,16 +30,14 @@ from aiogram.utils.exceptions import BotBlocked
 def register_all_handlers(dispatcher: Dispatcher):
     register_main_menu(dispatcher)
     register_seller_menu(dispatcher)
+    register_admin_menu(dispatcher)
     register_buyer_settings_menu(dispatcher)
     register_buyer_register_menu(dispatcher)
     register_seller_settings_menu(dispatcher)
     register_seller_register_menu(dispatcher)
     register_users_cancels_menu(dispatcher)
     register_users_commands(dispatcher)
-
-
-# def register_all_middlewares(dispatcher: Dispatcher):
-#     dispatcher.setup_middleware(ThrottlingAndDatabaseMiddleware())
+    register_admins_commands(dispatcher)
 
 
 async def on_startup(dispatcher: Dispatcher):
@@ -49,9 +49,6 @@ async def on_startup(dispatcher: Dispatcher):
     logger.info('Setup PostgreSQL connection')
     await startup_setup()
 
-    # logger.info('Register all middlewares')
-    # register_all_middlewares(dispatcher)
-    #
     logger.info('Set all default commands')
     await set_default_commands(bot)
 

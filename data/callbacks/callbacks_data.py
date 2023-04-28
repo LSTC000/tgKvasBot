@@ -2,8 +2,11 @@
 CANCEL_TO_MAIN_MENU_DATA = 'cancel_to_main_menu'
 CANCEL_TO_SELLER_MENU_DATA = 'cancel_to_seller_menu'
 CANCEL_TO_LAST_MENU_DATA = 'cancel_to_back'
-# COMMANDS.
+# USERS COMMANDS.
 START_COMMAND_DATA = 'start_command'
+# ADMINS COMMANDS.
+CREATE_SECRET_KEY_DATA = 'create_secret_key'
+SHOW_AVAILABLE_SECRET_KEYS_DATA = 'show_secret_keys'
 # MAIN MENU.
 SELLER_MENU_DATA = 'seller_menu'
 SETTINGS_MAIN_MENU_DATA = 'settings_main_menu'

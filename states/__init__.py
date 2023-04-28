@@ -1,4 +1,5 @@
 __all__ = [
+    'AdminMenuStatesGroup',
     'MainMenuStatesGroup',
     'SellerMenuStatesGroup',
     'BuyerRegisterMenuStatesGroup',
@@ -8,6 +9,7 @@ __all__ = [
 ]
 
 
+from .admin_menu import AdminMenuStatesGroup
 from .main_menu import MainMenuStatesGroup
 from .seller_menu import SellerMenuStatesGroup
 from .buyer_register_menu import BuyerRegisterMenuStatesGroup
