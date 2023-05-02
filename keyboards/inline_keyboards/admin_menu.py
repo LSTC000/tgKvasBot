@@ -1,8 +1,18 @@
 from data.config import ROW_WIDTH
 
-from data.callbacks import CREATE_SECRET_KEY_DATA, SHOW_AVAILABLE_SECRET_KEYS_DATA
+from data.callbacks import (
+    COUNT_SECRET_KEYS_DATA,
+    CREATE_SECRET_KEY_DATA,
+    SHOW_SECRET_KEYS_DATA,
+    DELETE_SECRET_KEYS_DATA
+)
 
-from data.messages import CREATE_SECRET_KEY_IKB_MESSAGE, SHOW_AVAILABLE_SECRET_KEYS_IKB_MESSAGE
+from data.messages import (
+    COUNT_SECRET_KEYS_IKB_MESSAGE,
+    CREATE_SECRET_KEYS_IKB_MESSAGE,
+    SHOW_SECRET_KEYS_IKB_MESSAGE,
+    DELETE_SECRET_KEYS_IKB_MESSAGE
+)
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -14,13 +24,9 @@ def admin_menu_ikb() -> InlineKeyboardMarkup:
 
     ikb = InlineKeyboardMarkup(row_width=ROW_WIDTH)
 
-    ikb.row(InlineKeyboardButton(
-        text=CREATE_SECRET_KEY_IKB_MESSAGE,
-        callback_data=CREATE_SECRET_KEY_DATA)
-    )
-    ikb.row(InlineKeyboardButton(
-        text=SHOW_AVAILABLE_SECRET_KEYS_IKB_MESSAGE,
-        callback_data=SHOW_AVAILABLE_SECRET_KEYS_DATA)
-    )
+    ikb.row(InlineKeyboardButton(text=COUNT_SECRET_KEYS_IKB_MESSAGE, callback_data=COUNT_SECRET_KEYS_DATA))
+    ikb.row(InlineKeyboardButton(text=CREATE_SECRET_KEYS_IKB_MESSAGE, callback_data=CREATE_SECRET_KEY_DATA))
+    ikb.row(InlineKeyboardButton(text=SHOW_SECRET_KEYS_IKB_MESSAGE, callback_data=SHOW_SECRET_KEYS_DATA))
+    ikb.row(InlineKeyboardButton(text=DELETE_SECRET_KEYS_IKB_MESSAGE, callback_data=DELETE_SECRET_KEYS_DATA))
 
     return ikb

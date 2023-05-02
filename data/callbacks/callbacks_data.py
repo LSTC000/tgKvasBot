@@ -5,8 +5,10 @@ CANCEL_TO_LAST_MENU_DATA = 'cancel_to_back'
 # USERS COMMANDS.
 START_COMMAND_DATA = 'start_command'
 # ADMINS COMMANDS.
+COUNT_SECRET_KEYS_DATA = 'count_secret_keys'
 CREATE_SECRET_KEY_DATA = 'create_secret_key'
-SHOW_AVAILABLE_SECRET_KEYS_DATA = 'show_secret_keys'
+SHOW_SECRET_KEYS_DATA = 'show_secret_keys'
+DELETE_SECRET_KEYS_DATA = 'delete_secret_keys'
 # MAIN MENU.
 SELLER_MENU_DATA = 'seller_menu'
 SETTINGS_MAIN_MENU_DATA = 'settings_main_menu'

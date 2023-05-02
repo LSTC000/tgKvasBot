@@ -5,8 +5,10 @@ CANCEL_TO_LAST_MENU_IKB_MESSAGE = '⬅️ Вернуться в назад'
 # USERS COMMANDS.
 START_COMMAND_IKB_MESSAGE = '🍺 Давай начнём'
 # ADMINS COMMANDS.
-CREATE_SECRET_KEY_IKB_MESSAGE = 'Создать секретный ключ'
-SHOW_AVAILABLE_SECRET_KEYS_IKB_MESSAGE = 'Показать доступные ключи'
+COUNT_SECRET_KEYS_IKB_MESSAGE = 'Количество секретных ключ'
+CREATE_SECRET_KEYS_IKB_MESSAGE = 'Создать секретный ключ'
+SHOW_SECRET_KEYS_IKB_MESSAGE = 'Показать доступные ключи'
+DELETE_SECRET_KEYS_IKB_MESSAGE = 'Удалить ключи'
 # MAIN MENU.
 FIND_NEAREST_SELLER_RKB_MESSAGE = '🧭 Найти ближайшую бочку'
 SELLER_MENU_IKB_MESSAGE = '🛒 Меню продавца'

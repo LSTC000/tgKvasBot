@@ -1,13 +1,19 @@
 __all__ = ['register_admin_menu']
 
 
-from .create_secret_key import generate_secret_key
-from .choice_secret_key import show_available_secret_keys, choice_secret_key
+from .count_secret_keys import count_secret_keys
+from .create_secret_keys import enter_count_create_secret_keys, create_secret_keys
+from .show_secret_keys import enter_count_show_secret_keys, show_secret_keys
+from .delete_secret_keys import enter_count_delete_secret_keys, delete_secret_keys
 
 from aiogram import Dispatcher
 
 
 def register_admin_menu(dp: Dispatcher):
-    dp.register_callback_query_handler(generate_secret_key)
-    dp.register_callback_query_handler(show_available_secret_keys)
-    dp.register_callback_query_handler(choice_secret_key)
+    dp.register_callback_query_handler(count_secret_keys)
+    dp.register_callback_query_handler(enter_count_create_secret_keys)
+    dp.register_message_handler(create_secret_keys)
+    dp.register_callback_query_handler(enter_count_show_secret_keys)
+    dp.register_message_handler(show_secret_keys)
+    dp.register_callback_query_handler(enter_count_delete_secret_keys)
+    dp.register_message_handler(delete_secret_keys)
