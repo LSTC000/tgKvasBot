@@ -9,6 +9,7 @@ COUNT_SECRET_KEYS_DATA = 'count_secret_keys'
 CREATE_SECRET_KEY_DATA = 'create_secret_key'
 SHOW_SECRET_KEYS_DATA = 'show_secret_keys'
 DELETE_SECRET_KEYS_DATA = 'delete_secret_keys'
+ALERT_FOR_USERS_DATA = 'alert_for_users'
 # MAIN MENU.
 SELLER_MENU_DATA = 'seller_menu'
 SETTINGS_MAIN_MENU_DATA = 'settings_main_menu'

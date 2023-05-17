@@ -23,9 +23,12 @@ class BaseModel(db.Model):
 
 
 async def startup_setup():
-    await db.set_bind(PG_URL)  # Connect to the database using the URL.
-    # await db.gino.drop_all()  # Drop all tables.
-    await db.gino.create_all()  # Create all tables.
+    try:
+        await db.set_bind(PG_URL)  # Connect to the database using the URL.
+        # await db.gino.drop_all()  # Drop all tables.
+        await db.gino.create_all()  # Create all tables.
+    except Exception as ex:
+        logger.info(ex)
 
 
 async def shutdown_setup():
