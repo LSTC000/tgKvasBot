@@ -10,6 +10,8 @@ CREATE_SECRET_KEYS_IKB_MESSAGE = '📌 Создать новые ключи'
 SHOW_SECRET_KEYS_IKB_MESSAGE = '🔍 Показать доступные ключи'
 DELETE_SECRET_KEYS_IKB_MESSAGE = '🗑️ Удалить доступные ключи'
 ALERT_FOR_USERS_IKB_MESSAGE = '🗞️ Отправить объявление'
+CONFIRM_ALERT_FOR_USERS_IKB_MESSAGE = '✅ Да'
+CANCEL_ALERT_FOR_USERS_IKB_MESSAGE = '❌ Нет'
 # MAIN MENU.
 FIND_NEAREST_SELLER_RKB_MESSAGE = '🧭 Найти ближайшую бочку'
 SELLER_MENU_IKB_MESSAGE = '🛒 Меню продавца'

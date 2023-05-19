@@ -28,6 +28,7 @@ __all__ = [
     'delete_secret_key',
     'delete_alert',
     'delete_seller_info',
+    'delete_buyer_info'
 ]
 
 
@@ -60,3 +61,4 @@ from .update_seller_pause import update_seller_pause
 from .delete_secret_key import delete_secret_key
 from .delete_alert import delete_alert
 from .delete_seller_info import delete_seller_info
+from .delete_buyer_info import delete_buyer_info

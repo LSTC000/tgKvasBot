@@ -7,3 +7,4 @@ class AdminMenuStatesGroup(StatesGroup):
     show_secret_keys = State()
     delete_secret_keys = State()
     alert_for_users = State()
+    confirm_for_users = State()

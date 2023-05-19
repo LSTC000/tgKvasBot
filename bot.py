@@ -20,11 +20,19 @@ from handlers import (
     register_seller_settings_menu
 )
 
-from database import startup_setup, shutdown_setup, get_alerts
+from database import startup_setup, shutdown_setup, get_alerts, delete_buyer_info
 
 from aiogram import Dispatcher
 from aiogram.utils import executor
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import (
+    BotBlocked,
+    ChatNotFound,
+    UserDeactivated,
+    MigrateToChat,
+    Unauthorized,
+    BadRequest,
+    RetryAfter
+)
 
 
 def register_all_handlers(dispatcher: Dispatcher):
@@ -58,20 +66,22 @@ async def on_startup(dispatcher: Dispatcher):
     logger.info('Bot starting users alert')
     users = await get_alerts()
     for user in users:
+        user = user[0]
         try:
-            await bot.send_message(chat_id=user[0], text=ALERT_STARTUP_MESSAGE, disable_notification=True)
-        except BotBlocked:
-            pass
+            await bot.send_message(chat_id=user, text=ALERT_STARTUP_MESSAGE, disable_notification=True)
+        except (BotBlocked, ChatNotFound, UserDeactivated, MigrateToChat, Unauthorized, BadRequest, RetryAfter):
+            await delete_buyer_info(buyer_id=user)
 
 
 async def on_shutdown(dispatcher: Dispatcher):
     logger.info('Bot stopped users alert')
     users = await get_alerts()
     for user in users:
+        user = user[0]
         try:
-            await bot.send_message(chat_id=user[0], text=ALERT_SHUTDOWN_MESSAGE, disable_notification=True)
-        except BotBlocked:
-            pass
+            await bot.send_message(chat_id=user, text=ALERT_SHUTDOWN_MESSAGE, disable_notification=True)
+        except (BotBlocked, ChatNotFound, UserDeactivated, MigrateToChat, Unauthorized, BadRequest, RetryAfter):
+            await delete_buyer_info(buyer_id=user)
 
     logger.info('Closing PostgreSQL connection')
     await shutdown_setup()
@@ -91,4 +101,3 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         logger.error("Bot stopped!")
         raise
-
